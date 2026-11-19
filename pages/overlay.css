@@ -1,0 +1,247 @@
+/* Overlay only. Settings load their own opaque Sauce stylesheet. */
+html:not(.settings-page),html:not(.settings-page) body{background:transparent}
+html:not(.settings-page) body{background-image:none!important;--outline-opacity:0!important;box-shadow:none!important;outline:none!important}
+html.solid-background:not(.settings-page){background:var(--background-color)}
+html.solid-background:not(.settings-page) body{background:transparent}
+#content{box-sizing:border-box;width:100%;padding:4px;flex:1;min-height:0;min-width:0;overflow:hidden;display:flex;flex-direction:row;align-items:center;color:inherit;font-family:inherit}
+#display{display:grid;grid-template-columns:repeat(var(--columns,6),max-content);gap:.16em;width:max-content;flex:none;align-content:center}
+.metric{display:grid;grid-template-columns:max-content max-content;align-items:baseline;gap:0 .12em;padding:.10em .23em;border:0;border-radius:999px;line-height:1.05;font-variant-numeric:tabular-nums}
+.label{grid-column:1/-1;font-size:.25em;letter-spacing:.04em;text-transform:uppercase;opacity:.7;line-height:1.15}
+.value{font-size:1em;font-weight:750;white-space:nowrap;line-height:1.1}
+.unit{font-size:.30em;opacity:.8;white-space:nowrap}
+body[data-style=focus] .metric:first-child{grid-row:span 2;align-content:center}
+body[data-style=focus] .metric:first-child .value{font-size:1.5em}
+body[data-style=clusters] .metric{border-radius:.5em;padding:.12em .25em}
+.metric,#zone,#progress{background-image:linear-gradient(135deg,hsl(var(--theme-bg-hue) var(--theme-bg-sat) var(--theme-bg-light)/var(--final-bg-opacity)),hsl(var(--theme-bg2-hue) var(--theme-bg2-sat) var(--theme-bg2-light)/var(--final-bg-opacity)));color:inherit}
+#zone,#progress{border-radius:12px;padding:8px 12px;font-size:clamp(10px,2.5vw,28px);flex:1;min-width:0}
+.segments{display:flex;gap:4px;margin:8px 0}.segment{flex:1;height:7px;border-radius:5px;opacity:.35}.segment.active{opacity:1;box-shadow:0 0 0 2px white}
+.zone-title{display:flex;justify-content:space-between;gap:8px}.times{display:flex;justify-content:space-between;font-size:.7em;opacity:.75}
+.track{height:5px;background:#ffffff20;border-radius:5px;margin-top:8px;overflow:hidden}.fill{height:100%;background:#73e8d1}
+[hidden]{display:none!important}
+
+/* Functional baseline pending a separate visual-design pass. */
+.metric,body[data-style=clusters] .metric,#zone,#progress{border-radius:2px}
+#progress{position:relative}
+
+/* Native common.css defaults #content to a column. Bars must fill both axes. */
+body[data-style=progress] #content,body[data-style=zones] #content{align-items:stretch}
+body[data-style=progress] #progress,body[data-style=zones] #zone{box-sizing:border-box;align-self:stretch;flex:1 1 0%;width:100%;min-height:0;display:flex;flex-direction:column;justify-content:center}
+
+/* Shared edge contract: content fits the native window with a 4px inset. */
+#content{box-sizing:border-box;width:100%;max-width:100%;min-width:0;min-height:0;padding:4px}
+/* Bars respond to width AND height. Font preference scales text, not track thickness. */
+#zone,#progress{font-size:calc(min(2.5vw,12vh) * var(--scale,1));line-height:1.15;padding:.4em .6em;overflow:hidden}
+.segment{height:min(var(--bar-thickness,12px),12vh)}
+.segments{margin:.35em 0}
+
+/* Progress cells: blue fill, hatched lead-in, white rider/finish, segments coloured by type. */
+body{--r:0px;--c-sprint:#3dd68c;--c-climb:#ff5b55;--c-loop:#ffa640;--c-other:#c9d0d9}
+body[data-corners=soft]{--r:3px}body[data-corners=rounded]{--r:8px}
+body[data-palette=lifted]{--c-sprint:#6ee7a8;--c-climb:#ff8076;--c-loop:#ffc058}
+body[data-palette=safe]{--c-sprint:#5ce0b8;--c-climb:#ff5a5f;--c-loop:#ffd23f}
+#progress{--p-fill:#1f7fa3;--p-track:rgba(255,255,255,.16);--p-mark:#fff;border-radius:var(--r)}
+.kind-sprint{--k:var(--c-sprint)}.kind-climb{--k:var(--c-climb)}.kind-loop{--k:var(--c-loop)}.kind-other{--k:var(--c-other)}
+.route-heading{display:flex;justify-content:space-between;align-items:baseline;gap:1em;line-height:1.1}
+.route-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.72em;letter-spacing:.06em;text-transform:uppercase;font-weight:600;opacity:.85}
+.route-remaining{white-space:nowrap}.route-remaining b{font-size:1.1em;font-weight:700}.route-remaining small{font-size:.68em;opacity:.85;font-weight:500}
+.route-cells{position:relative;display:flex;gap:2px;height:max(var(--bar-thickness,12px),1.7em);flex-shrink:0;margin:.3em 0}
+body[data-rider=notch] .route-cells{margin-top:.75em}
+.route-cell{position:relative;min-width:0;overflow:hidden;border-radius:var(--r);background:linear-gradient(90deg,var(--p-fill) var(--fill,0%),var(--p-track) var(--fill,0%))}
+.route-prelude::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.5) 0 2px,transparent 2px 5px)}
+.cell-label{position:absolute;left:.5em;top:0;bottom:0;display:flex;align-items:center;font-size:.7em;font-weight:600;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:#fff;z-index:1}
+.route-segment{position:absolute;bottom:0;height:max(3px,.3em);min-width:max(5px,.45em);background:var(--k,var(--c-other))}
+.route-segment.kind-loop{bottom:auto;top:0;height:max(2px,.15em)}
+.route-rider{position:absolute;top:0;bottom:0;width:4px;margin-left:-2px;background:var(--p-mark);z-index:2}
+body[data-rider=notch] .route-rider{width:2px;margin-left:-1px}
+body[data-rider=notch] .route-rider::before{content:"";position:absolute;left:50%;top:-.5em;margin-left:-.35em;border-left:.35em solid transparent;border-right:.35em solid transparent;border-top:.5em solid var(--p-mark)}
+.route-finish{position:absolute;right:0;top:0;bottom:0;width:3px;background:var(--p-mark)}
+/* Compact: one row. Route name and Next sit inside the bar so long names never narrow it. */
+#progress.compact{flex-direction:row;align-items:center;gap:.6em}
+#progress.compact .route-cells{flex:1;min-width:0;margin:0;height:max(var(--bar-thickness,12px),1.5em)}
+.bar-labels{position:absolute;inset:0 .5em;display:flex;align-items:center;justify-content:space-between;gap:.8em;z-index:3;pointer-events:none;overflow:hidden}
+.bar-labels .route-name{min-width:0;overflow:hidden;text-overflow:ellipsis;opacity:1;color:#fff}
+.route-next{flex:none;font-size:.7em;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;color:var(--k,inherit)}
+.bar-labels .route-next:only-child{flex:0 1 auto;overflow:hidden;text-overflow:ellipsis}
+/* Thin line (canvas G). --lt is the track thickness; it follows Font scaling. */
+#progress.line{gap:.2em}
+.line-text{display:flex;align-items:center;gap:.6em;justify-content:space-between;min-width:0}
+.route-line{--lt:calc(3px * var(--scale,1));position:relative;flex:1;min-width:0;height:calc(16px * var(--scale,1))}
+.line-track,.line-fill,.line-lead{position:absolute;left:0;top:50%;height:var(--lt);transform:translateY(-50%)}
+.line-track{right:0;background:rgba(255,255,255,.35);box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+.line-fill{background:var(--p-fill)}
+.line-lead{background:repeating-linear-gradient(135deg,rgba(255,255,255,.75) 0 2px,transparent 2px 4px)}
+.line-seg{position:absolute;top:50%;height:calc(var(--lt) + 2px);transform:translateY(-50%);min-width:max(5px,.4em);background:var(--k,var(--c-other));box-shadow:0 0 0 1px rgba(0,0,0,.45)}
+.line-seg.kind-loop{top:calc(50% + var(--lt) / 2 + 2px);height:2px;transform:none;box-shadow:none}
+.route-line[data-v=raised] .line-seg:not(.kind-loop){top:auto;bottom:calc(50% + var(--lt) / 2);height:.4em;transform:none}
+.line-finish{position:absolute;right:0;top:50%;width:2px;height:calc(var(--lt) + 6px);transform:translateY(-50%);background:var(--p-mark)}
+#progress.line .route-next{font-size:.72em}
+/* Text size comes from Font scaling only, never from window size. The panel hugs the top of the
+   window and its content, so resizing the window adds or removes empty space instead of rescaling text. */
+body[data-style=progress] #content{align-items:flex-start}
+body[data-style=progress] #progress{font-size:calc(16px * var(--scale,1));flex:1 1 auto;align-self:flex-start;height:auto;justify-content:flex-start;padding:.3em .45em}
+/* Text outline for transparent backgrounds over bright scenery. Dark text inside colored strips is excluded. */
+/* Text outline (0.3.7): a stroke painted behind the letters (smooth at any size) plus a soft glow. The old
+   offset-shadow outline left jagged blobs at the ends of strokes on small text. Only half of the stroke
+   width shows, because the letters are painted over it. Small text gets a thinner stroke (a fraction of its own
+   size), so the outline does not fill in the letters. */
+body[data-outline=light]{--outline:0 0 3px rgba(0,0,0,.55);--ow:1px;--owe:.08}
+body[data-outline=normal]{--outline:0 0 3px rgba(0,0,0,.65);--ow:2px;--owe:.12}
+body[data-outline=heavy]{--outline:0 0 4px rgba(0,0,0,.8);--ow:3.5px;--owe:.2}
+#progress .route-name,#progress .route-lap,#progress .route-remaining,#progress .cell-label,#progress .route-next{text-shadow:var(--outline,none)}
+#progress .route-name,#progress .route-lap,#progress .route-remaining,#progress .cell-label,#progress .route-next,.hud[data-surface=open] .m :is(.value,.m-label,.unit,.m-sub,.m-pupname){-webkit-text-stroke:min(calc(var(--ow,0px) * var(--scale,1)),calc(var(--owe,0) * 1em)) rgba(0,0,0,.9);paint-order:stroke fill}
+body:not([data-outline=off]) .route-cell{box-shadow:0 0 0 1px rgba(0,0,0,.45)}
+body[data-outline=heavy] .route-cell{box-shadow:0 0 0 1.5px rgba(0,0,0,.8)}
+.line-text .route-next{margin-left:auto}
+/* Shared text slots (0.1.17): the same left/right/distance layout in every style. */
+.route-heading,.line-text{display:flex;align-items:center;gap:.8em;min-width:0}
+.slot-left{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.slot-right{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
+.slot-left:empty,.slot-right:empty{flex:1 1 0}
+.slot-left>*,.slot-right>*{overflow:hidden;text-overflow:ellipsis}
+.line-text.beside>.route-name,.line-text.beside>.route-next{flex:0 1 auto;max-width:35%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.route-remaining{flex:none}
+body[data-nextcolor=white] .route-next{color:#fff}
+.route-line[data-v=raised]{--lt:calc(2px * var(--scale,1))}
+/* Thin-line rider follows the Rider marker setting: bar (upright), notch (triangle above), none. */
+.line-rider{position:absolute;z-index:2;top:0;bottom:0;width:3px;transform:translateX(-50%);background:var(--p-mark);box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+body[data-rider=notch] .line-rider{width:2px;top:25%;bottom:25%}
+body[data-rider=notch] .line-rider::before{content:"";position:absolute;left:50%;top:-.45em;margin-left:-.32em;border-left:.32em solid transparent;border-right:.32em solid transparent;border-top:.45em solid var(--p-mark)}
+body[data-rider=notch] .route-line{margin-top:.25em}
+body[data-rider=notch] .line-rider::before,body[data-rider=notch] .route-rider::before{filter:drop-shadow(0 0 1px rgba(0,0,0,.9)) drop-shadow(0 0 1px rgba(0,0,0,.6))}
+/* Text position: below and split rows (0.1.19). */
+.route-heading.below{margin-top:.1em}
+.route-subline{display:flex;min-width:0;white-space:nowrap;overflow:hidden;line-height:1.2}
+.route-subline>*{overflow:hidden;text-overflow:ellipsis}
+#progress.line .route-heading{font-size:inherit}
+/* A line placed directly in the column (Line only, Labels on their own row) must keep its height;
+   flex:1 there collapsed it to 0px and hid the position bar (0.1.21). */
+#progress.line>.route-line{flex:none;width:100%}
+/* Segment approach cue (0.2.0): pulse before a segment, solid tag while riding it, brighter marker. */
+@keyframes route-approach{0%,100%{opacity:1}50%{opacity:.4}}
+.route-next.approach{animation:route-approach 1s ease-in-out infinite}
+.route-next.in-segment{background:var(--k,#fff);color:#10141a!important;text-shadow:none;padding:0 .35em}
+.route-segment.active,.line-seg.active{filter:brightness(1.3);box-shadow:0 0 0 1px #fff,0 0 0 2px rgba(0,0,0,.6);z-index:1}
+@media (prefers-reduced-motion:reduce){.route-next.approach{animation:none;text-decoration:underline}}
+.route-lap{font-size:.72em;letter-spacing:.06em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+#progress .route-next.in-segment{text-shadow:none;-webkit-text-stroke:0}
+/* Metric HUD (strip window, 0.3.0). Text size comes from Text size only; the HUD hugs the top of the
+   window and fills its width. Looks and arrangements are data attributes set by hud-view.mjs. */
+body[data-style=strip] #content{flex-direction:column;align-items:stretch;justify-content:flex-start;gap:.5em;font-size:calc(16px * var(--scale,1))}
+body[data-style=strip] #progress{font-size:calc(16px * var(--pscale,1));--scale:var(--pscale,1);flex:none;width:100%;box-sizing:border-box;padding:0;background:none;display:flex;flex-direction:column}
+body[data-style=strip][data-hudprogress=above] #progress{order:-1}
+body[data-style=strip] #progress .route-heading{padding:0 .1em}
+.hud{display:flex;gap:1.5em;width:100%;font-size:inherit;--hud-bg:rgba(14,20,28,var(--hud-alpha,.72));--zc-default:#fff;--vs:1.9em;--us:.85em;--ggap:2px}
+.hud[data-arrange=ends]{justify-content:space-between}
+.hud[data-arrange=column]{flex-direction:column;width:auto;align-self:flex-start}
+.hud-group{display:flex;gap:var(--ggap);flex:1 1 0;min-width:0}
+.hud[data-arrange=ends] .hud-group{flex:0 1 auto}
+.hud[data-arrange=rows] .hud-group{display:grid;grid-template-columns:repeat(var(--per-row,3),minmax(0,1fr))}
+.hud[data-arrange=column] .hud-group{flex-direction:column;flex:none}
+.m{position:relative;display:grid;grid-template-columns:max-content 1fr;grid-template-areas:"label label" "value unit" "sub sub";grid-template-rows:auto 1fr auto;align-items:baseline;column-gap:.25em;flex:1 1 0;min-width:0;padding:.45em .75em .6em;line-height:1.05;font-variant-numeric:tabular-nums;overflow:hidden;white-space:nowrap;color:#fff}
+.m .m-label{grid-area:label;font-size:.7em;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,236,241,.72);overflow:hidden;text-overflow:ellipsis}
+.m .m-label ms{font-size:1.25em;vertical-align:-.2em;letter-spacing:0}
+.m .value{grid-area:value;font-size:var(--vs);font-weight:700;line-height:1.05}
+.m .unit{grid-area:unit;font-size:var(--us);font-weight:500;color:rgba(232,236,241,.78)}
+/* Even band (0.4.0): every cell in a row is as tall as the tallest one. Label on top, number and second line at the bottom. */
+.hud[data-layout=stacked]:not([data-arrange=column]) .m :is(.value,.unit){align-self:end;align-self:last baseline}
+.m .m-sub{grid-area:sub;font-size:.75em;font-weight:500;color:rgba(232,236,241,.66);overflow:hidden;text-overflow:ellipsis}
+.m .m-stripe{position:absolute;left:0;right:0;bottom:0;height:max(3px,.25em);background:var(--zc)}
+.hud[data-zone=number] .m .value{color:var(--zc,#fff)}
+/* Side: a big number with the label above the unit beside it (Arckuk top bar). */
+.hud[data-layout=side] .m{grid-template-columns:max-content max-content;grid-template-areas:"value label" "value unit" "sub sub";justify-content:center;align-items:center;align-content:center;row-gap:0;padding:.2em .4em .45em;text-shadow:var(--outline,none)}
+.hud[data-layout=side]{--vs:2.4em}
+.hud[data-layout=side] .m .m-label,.hud[data-layout=side] .m .unit{color:#e8ecf1;justify-self:center;align-self:end}
+.hud[data-layout=side] .m .unit{align-self:start;font-weight:600}
+.hud[data-layout=side] .m .m-sub{color:#e8ecf1;font-weight:600;text-align:center;font-size:.85em}
+.hud[data-layout=side] .m .m-stripe{left:20%;right:20%;bottom:.2em;box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+.hud[data-layout=side][data-zone=stripe] .m.zoned.has-sub .m-stripe{bottom:.2em}
+/* Tiles: compact flat boxes sized to their number (O101 live data, without the gradient). */
+/* Inline: label, number and unit on one line. */
+.hud[data-layout=inline]{--vs:1.5em}
+.hud[data-layout=inline] .m{display:grid;grid-template-columns:none;grid-template-rows:none;grid-template-areas:none;grid-auto-flow:column;grid-auto-columns:max-content;justify-content:center;align-content:center;align-items:baseline;column-gap:.35em;padding:.3em .8em .35em}
+.hud[data-layout=inline] .m>*{grid-area:auto}
+.hud[data-layout=inline] .m .m-sub{font-size:.7em;margin-left:.2em}
+.hud[data-layout=inline] .m .m-stripe{left:.8em;right:.8em;height:2px;bottom:.1em}
+/* Column: a vertical stack; label left, number right. */
+.hud[data-arrange=column] .m{display:flex;align-items:baseline;gap:.3em;min-width:11em;padding:.3em .7em .3em .8em}
+.hud[data-arrange=column] .m .m-label{flex:1}
+.hud[data-arrange=column]{--vs:1.5em}
+.hud[data-arrange=column] .m .m-stripe{left:0;right:auto;top:0;bottom:0;width:max(3px,.25em);height:auto}
+.hud[data-layout=side] .m .value,.hud[data-layout=side] .m .m-label{text-shadow:var(--outline,none)}
+/* The older metric-grid rules on #display must not apply to the HUD. */
+body[data-style=strip] #display.hud{display:flex;width:100%;gap:1.5em;flex:none;grid-template-columns:none}
+body[data-style=strip] #display.hud[data-arrange=column]{flex-direction:column;width:auto;align-self:flex-start}
+.hud[data-arrange=column] .m{flex:none}
+.hud[data-layout=inline] .m .m-label,.hud[data-layout=inline] .m .value,.hud[data-layout=inline] .m .unit{flex:none}
+.hud[data-layout=inline] .m{flex:1 0 auto}
+body[data-style=strip] #progress.compact{flex-direction:row;align-items:center;gap:.6em}
+/* Rail stays slim: no second line. Tiles: a text label leads; an icon follows the unit. */
+.hud[data-layout=inline] .m .m-sub{display:none}
+/* Middle label (0.3.0): left and right share the row evenly so the middle stays centered. */
+.has-mid>.slot-left,.has-mid>.slot-right{flex:1 1 0}
+.slot-mid{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.slot-mid>*{overflow:hidden;text-overflow:ellipsis}
+.line-text.beside>.route-lap{flex:none}
+/* Compact: inside the bar a solid tag covered the segment markers. While riding a segment the label is
+   colored text with a small square in front instead. */
+#progress.compact .route-next.in-segment{background:none;padding:0;color:var(--k)!important;text-shadow:var(--outline,none);-webkit-text-stroke:min(calc(var(--ow,0px) * var(--scale,1)),calc(var(--owe,0) * 1em)) rgba(0,0,0,.9);paint-order:stroke fill}
+body[data-nextcolor=white] #progress.compact .route-next.in-segment{color:#fff!important}
+#progress.compact .route-next.in-segment::before{content:"";display:inline-block;width:.6em;height:.6em;margin-right:.4em;vertical-align:.05em;background:var(--k,#fff);box-shadow:0 0 0 1px rgba(0,0,0,.7)}
+/* Keep compact as one row in the progress window (the generic window rule above is more specific). */
+body[data-style=progress] #progress.compact{flex-direction:row;align-items:center;gap:.6em}
+/* Narrow windows (0.3.1): in the row, groups and ends arrangements each group is a grid with a minimum cell
+   width; hud-view.mjs sets --cols and stacks the groups when they no longer fit side by side.
+   Tiles are content-sized and simply wrap. Rows, hero and column keep their own rules. */
+.hud:is([data-arrange=row],[data-arrange=groups],[data-arrange=ends]):is([data-layout=stacked],[data-layout=side],[data-layout=inline]) .hud-group{display:grid;grid-template-columns:repeat(var(--cols,6),minmax(0,1fr));flex:1 1 0}
+.hud[data-arrange=ends]:is([data-layout=stacked],[data-layout=side],[data-layout=inline]) .hud-group{grid-template-columns:repeat(var(--cols,3),minmax(7.2em,max-content));flex:0 1 auto}
+.hud.stacked{flex-direction:column;gap:2px}
+.hud.stacked .hud-group{flex:none;width:100%}
+.hud[data-arrange=ends].stacked:is([data-layout=stacked],[data-layout=side],[data-layout=inline]) .hud-group{grid-template-columns:repeat(var(--cols,3),minmax(0,1fr))}
+/* Text-valued metrics (Power-up): a smaller value so names such as "Steamroller" fit the cell. */
+.m.m-text .value{font-size:1.15em;overflow:hidden;text-overflow:ellipsis}
+body[data-style=strip] #display.hud.stacked{gap:2px}
+.m-icon{height:1.05em;width:1.05em;vertical-align:-.18em;margin-right:.3em}
+.hud[data-layout=side] .m-icon{filter:drop-shadow(0 0 1px rgba(0,0,0,.9))}
+.m.pup-active .value{color:#52d49d}
+.hud[data-layout=side] .m.m-text .value{font-size:1.5em}
+.hud[data-layout=side] .m.m-text .m-label{max-width:5.5em}
+/* Power-up cell: the icon fills the cell and never decides its size. In a single row the cell is a square as tall as
+   the row (hud-view.mjs sets its column), so the icon can not make the row taller or the cell narrow. The name is
+   optional (Power-up name setting): the cell then holds the icon and the name side by side. */
+.m.m-iconcell{display:block;padding:0;grid-template-columns:none;grid-template-rows:none}
+.m.m-iconcell .m-icon{position:absolute;inset:.45em;width:calc(100% - .9em);height:calc(100% - .9em);margin:0;object-fit:contain}
+.m.m-iconcell .m-icon-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;width:auto;height:auto;font-size:2.2em;line-height:1;opacity:.22;font-family:"Material Symbols Rounded","Material Symbols Outlined"}
+.m.m-iconcell.has-name{display:flex;align-items:center;justify-content:center;gap:.5em;padding:.25em .6em}
+.m.m-iconcell.has-name .m-icon{position:static;flex:none;width:auto;height:2.6em;aspect-ratio:1}
+.hud[data-layout=inline] .m.m-iconcell.has-name .m-icon{height:1.5em}
+.m.m-iconcell .m-pupname{font-size:.95em;font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.hud[data-arrange=column] .m.m-iconcell{min-height:3em;justify-content:center}
+.m.m-iconcell.pup-active{box-shadow:inset 0 0 0 2px #52d49d,0 0 0 1px rgba(0,0,0,.5)}
+.hud[data-layout=side] .m.m-iconcell.pup-active{box-shadow:none}
+.hud[data-layout=side] .m.m-iconcell.pup-active .m-icon{filter:drop-shadow(0 0 3px #52d49d) drop-shadow(0 0 1px rgba(0,0,0,.9))}
+/* Surface (0.4.0): what is drawn behind the metrics. It never changes the size or position of a cell.
+   Cards: a box per metric. Plate: one slab per group with hairline dividers (no blue edge). Open: nothing at all,
+   no surface and no lines; text gets the Text outline setting so it reads over scenery. */
+.hud{--r:var(--hud-r,0px)}
+.hud[data-surface=cards] .m{background:var(--hud-bg);box-shadow:0 0 0 1px rgba(0,0,0,.5);border-radius:var(--r)}
+.hud[data-surface=plate] .hud-group{background:var(--hud-bg);border:1px solid rgba(0,0,0,.5);border-radius:var(--r);clip-path:inset(0 round var(--r));--ggap:0px}
+.hud[data-surface=plate] .m{box-shadow:0 0 0 .5px rgba(255,255,255,.17)}
+.hud[data-surface=plate][data-arrange=column] .hud-group{width:auto}
+.hud[data-surface=open] .hud-group{background:none;box-shadow:none}
+.hud[data-surface=open] .m{background:none;box-shadow:none;text-shadow:var(--outline,none)}
+.hud[data-surface=open] .m .m-label,.hud[data-surface=open] .m .unit,.hud[data-surface=open] .m .m-sub{color:#e8ecf1}
+.hud[data-surface=open] .m.m-iconcell.pup-active .m-icon{filter:drop-shadow(0 0 3px #52d49d) drop-shadow(0 0 1px rgba(0,0,0,.9))}
+.hud[data-surface=open] .m .m-icon{filter:drop-shadow(0 0 1px rgba(0,0,0,.9))}
+.hud[data-surface=open] .m .m-stripe{box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+/* The HUD has its own corners; the docked progress bar keeps the Corners setting of the bar. */
+body[data-hudcorners=soft]{--hud-r:3px}body[data-hudcorners=rounded]{--hud-r:8px}
+/* Unit grid (0.4.0): every normal cell is one unit wide, on both sides of a split, and the large first metric is
+   Large size units wide. hud-view.mjs sets the columns and the group weights from those units, so the large box
+   can no longer be narrower or wider than its share. Only its number and unit scale; its label, second line and
+   padding stay the same as every other cell's, and all cells in a row share one height (the even band).
+   Rows: the large box takes the first column and spans every row. */
+.hud .m.hero{grid-row:span var(--hero-rows,1)}
+.hud[data-arrange=rows] .m.hero,.hud.stacked .m.hero{grid-column:1}
+.hud .m.hero:not(.m-text) .value{font-size:calc(var(--vs) * var(--hero-size,1.6))}
+.hud .m.hero:not(.m-text) .unit{font-size:calc(var(--us) * var(--hero-size,1.6))}
+

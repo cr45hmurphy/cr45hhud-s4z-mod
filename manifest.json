@@ -1,0 +1,37 @@
+{
+  "manifest_version": 1,
+  "id": "cr45h-hud",
+  "name": "CR45H HUD",
+  "author": "cr45hmurphy",
+  "description": "CR45H HUD: a customizable Metric HUD and a Ride Progress Bar with segment markers, in one shared look.",
+  "version": "0.4.0",
+  "web_root": "pages",
+  "windows": [
+    {
+      "id": "strip",
+      "name": "Metric HUD",
+      "file": "pages/strip.html",
+      "overlay": true,
+      "frame": false,
+      "default_bounds": {
+        "width": 920,
+        "height": 100,
+        "x": 100,
+        "y": 100
+      }
+    },
+    {
+      "id": "progress",
+      "name": "Ride Progress Bar",
+      "file": "pages/progress.html",
+      "overlay": true,
+      "frame": false,
+      "default_bounds": {
+        "width": 640,
+        "height": 140,
+        "x": 100,
+        "y": 300
+      }
+    }
+  ]
+}

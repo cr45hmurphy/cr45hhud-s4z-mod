@@ -1,0 +1,8 @@
+/* Settings are opaque native Sauce pages, independent of overlay backgrounds. */
+html.settings-page body{--bg-opacity:1;--min-bg-opacity:1;--final-bg-opacity:100%}
+#settings{overflow:auto;flex:1;min-height:0}
+#settings p{font-size:.85em;opacity:.75;line-height:1.5}
+#fields .field{display:flex;align-items:center;gap:6px;margin:8px 0}
+#fields label{flex:1;display:flex;gap:8px;align-items:center}
+#fields button{padding:3px 12px;cursor:pointer}
+[hidden]{display:none!important}
