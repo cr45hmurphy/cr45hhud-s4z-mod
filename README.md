@@ -63,9 +63,50 @@ Two settings that combine freely: **Layout** is how a metric is arranged inside 
 
 Every cell in a row is the same height, with the label at the top and the number at the bottom. Every normal cell is one unit wide, on both sides of a split.
 
+
+**Layout and surface.** All nine combinations, with the default Square corners and second lines on.
+
+*Stacked*
+
+Plate:<br><img src="images/look-stacked-plate.png" alt="Stacked layout, plate surface" width="1000">
+
+Cards:<br><img src="images/look-stacked-cards.png" alt="Stacked layout, cards surface" width="1000">
+
+Open:<br><img src="images/look-stacked-open.png" alt="Stacked layout, open surface" width="1000">
+
+*Inline (two rows of five here, because ten metrics do not fit one row in this window)*
+
+Plate:<br><img src="images/look-inline-plate.png" alt="Inline layout, plate surface" width="1000">
+
+Cards:<br><img src="images/look-inline-cards.png" alt="Inline layout, cards surface" width="1000">
+
+Open:<br><img src="images/look-inline-open.png" alt="Inline layout, open surface" width="1000">
+
+*Side*
+
+Plate:<br><img src="images/look-side-plate.png" alt="Side layout, plate surface" width="1000">
+
+Cards:<br><img src="images/look-side-cards.png" alt="Side layout, cards surface" width="1000">
+
+Open:<br><img src="images/look-side-open.png" alt="Side layout, open surface" width="1000">
+
+**Labels, zone color and corners.**
+
+Icons instead of text labels:<br><img src="images/look-labels-icons.png" alt="Icon labels" width="1000">
+
+No labels:<br><img src="images/look-labels-none.png" alt="No labels" width="1000">
+
+Zone color on the number:<br><img src="images/look-zone-number.png" alt="Zone color on the number" width="1000">
+
+Rounded corners:<br><img src="images/look-corners-rounded.png" alt="Rounded corners" width="1000">
+
 ### Second lines
 
 A small second line under a metric. One switch turns them all off; each metric also has its own switch.
+
+On:<br><img src="images/second-lines-on.png" alt="Second lines on" width="1000">
+
+Off (master switch):<br><img src="images/second-lines-off.png" alt="Second lines off" width="1000">
 
 | Metric | Shows | Default |
 |---|---|---|
@@ -92,6 +133,12 @@ Options that combine with them:
 | **First metric large** | All | The first metric in your list becomes a wider box, **Large size** units wide (1 to 3), with a bigger number and unit. Its label, second line and height match the other cells. A Power-up cell never takes this slot; the large box goes to the first real metric. |
 
 When a window is too narrow, rows split on their own instead of squeezing the numbers. Groups stack when they no longer fit side by side.
+
+First metric large:<br><img src="images/arrange-large-first.png" alt="First metric large" width="1000">
+
+Two groups with a gap, first metric large:<br><img src="images/arrange-split-gap.png" alt="Two groups with a gap" width="1000">
+
+Split to the window edges:<br><img src="images/arrange-split-edges.png" alt="Split to the window edges" width="1000">
 
 ### Power-up
 
@@ -152,6 +199,7 @@ Shows how far along the current route you are, with the lead-in, the segments ah
 
 ## Known limits
 
+- **Window height.** The window does not resize itself to its content. Rows, Column and a docked progress bar need a taller window than one row does; if the window is too short, the lower rows are cut off. Drag the window taller.
 - **Laps and events.** The progress bar covers the current lap, not a whole multi-lap event. In an event, the Lap label shows the lap count when Sauce provides it. Events and the "to go" lines have not been tried in a real event yet.
 - **Segment types.** Sprint, climb and loop come from each segment's name and its loop flag. A few unnamed ones are listed by hand, and anything unrecognized shows as Segment.
 - **Power-up.** Built from how Sauce's own PowerUp field works. It has not been tried with a real power-up yet.
