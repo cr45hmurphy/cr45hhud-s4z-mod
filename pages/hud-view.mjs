@@ -84,7 +84,7 @@ export function drawHud(root,items,cfg){
 // A Power-up icon cell is a square as tall as the row (its column is set from the measured row height), so the icon
 // can not change the row. When the window is too narrow, groups stack and a long row splits into balanced rows
 // (for example 6 metrics in a window that fits 4 become 3 + 3) instead of squeezing.
-export const MIN_CELL=7.2,MIN_CELL_RAIL=10.5,MIN_CELL_OPEN=9; // Inline and Side put the label beside the number, so they need more room.
+export const MIN_CELL=7.2,MIN_CELL_RAIL=9,MIN_CELL_OPEN=9; // Inline and Side put the label beside the number, so they need more room.
 export const END_CELL=8.5; // Split to the window edges: one fixed unit, so the two ends match and nothing shifts as numbers change.
 export function fitHud(root){
  const arr=root.dataset.arrange;if(!['row','groups','ends'].includes(arr))return;
