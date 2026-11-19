@@ -134,6 +134,10 @@ Options that combine with them:
 
 When a window is too narrow, rows split on their own instead of squeezing the numbers. Groups stack when they no longer fit side by side.
 
+Rows, six per row, first metric large:<br><img src="images/arrange-rows-large.png" alt="Rows with a large first metric" width="1000">
+
+Column:<br><img src="images/arrange-column.png" alt="Column" width="244">
+
 First metric large:<br><img src="images/arrange-large-first.png" alt="First metric large" width="1000">
 
 Two groups with a gap, first metric large:<br><img src="images/arrange-split-gap.png" alt="Two groups with a gap" width="1000">
@@ -156,6 +160,16 @@ The **Power-up name** setting adds the name beside the icon, plus the seconds le
 ### Progress bar
 
 Show the Ride Progress Bar **above** or **below** the metrics, or keep it **off**. A docked bar has every setting the standalone window has (see below), plus its own **Progress bar text size**, so it can be sized separately from the metrics.
+
+Above the metrics, full bar:<br><img src="images/bar-above-full.png" alt="Progress bar above the metrics, full bar" width="1000">
+
+Below the metrics:<br><img src="images/bar-below-full.png" alt="Progress bar below the metrics" width="1000">
+
+Compact bar (one row):<br><img src="images/bar-compact.png" alt="Compact progress bar" width="1000">
+
+Thin line:<br><img src="images/bar-thin-line.png" alt="Thin line progress bar" width="1000">
+
+Rounded HUD corners with the docked bar left square:<br><img src="images/bar-square-in-rounded-hud.png" alt="Rounded HUD with a square docked bar" width="1000">
 
 ---
 
