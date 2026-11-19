@@ -124,8 +124,6 @@ Off (master switch):<br><img src="images/second-lines-off.png" alt="Second lines
 | Rows | A fixed number of metrics per row. |
 | Column | A vertical stack for a screen edge. |
 
-The Arrangement and Progress bar part of the Metric HUD settings:<br><img src="images/settings-metric-hud-arrangement.png" alt="Metric HUD settings, Arrangement and Progress bar" width="485">
-
 Options that combine with them:
 
 | Option | Works with | Result |
@@ -195,8 +193,6 @@ Full bar:<br><img src="images/progress-full.png" alt="Full bar" width="976">
 Compact bar:<br><img src="images/progress-compact.png" alt="Compact bar" width="976">
 
 Thin line:<br><img src="images/progress-thin.png" alt="Thin line" width="976">
-
-The settings window:<br><img src="images/settings-progress-bar.png" alt="Ride Progress Bar settings" width="545">
 
 <details>
 <summary><b>Every progress bar option, one at a time</b></summary>
