@@ -233,6 +233,7 @@ body[data-style=strip] #display.hud.stacked{gap:2px}
 .hud[data-surface=open] .m.m-iconcell.pup-active .m-icon{filter:drop-shadow(0 0 3px #52d49d) drop-shadow(0 0 1px rgba(0,0,0,.9))}
 .hud[data-surface=open] .m .m-icon{filter:drop-shadow(0 0 1px rgba(0,0,0,.9))}
 .hud[data-surface=open] .m .m-stripe{box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+.hud[data-surface=plate] .m.m-iconcell.pup-active,.hud[data-surface=cards] .m.m-iconcell.pup-active{box-shadow:inset 0 0 0 2px #52d49d,0 0 0 1px rgba(0,0,0,.5)}
 /* The HUD has its own corners; the docked progress bar keeps the Corners setting of the bar. */
 body[data-hudcorners=soft]{--hud-r:3px}body[data-hudcorners=rounded]{--hud-r:8px}
 /* Unit grid (0.4.0): every normal cell is one unit wide, on both sides of a split, and the large first metric is
