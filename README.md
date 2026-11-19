@@ -72,6 +72,14 @@ Plate:<br><img src="images/look-stacked-plate.png" alt="Stacked layout, plate su
 
 Cards:<br><img src="images/look-stacked-cards.png" alt="Stacked layout, cards surface" width="1000">
 
+**Plate vs Cards.** At full size the two look almost the same, so here are the differences. The highlighted strips are where to look:
+
+- **Plate** is one slab. The metrics share a single background and outer border, with a hairline divider between them and no gap.
+- **Cards** are a separate box per metric. There is a small gap between boxes, and each box has its own thin outline.
+- **Corners** is where it shows most. With Rounded corners, Plate rounds only the outer corners of the whole slab, while Cards round every box.
+
+<img src="images/plate-vs-cards.png" alt="Plate compared with Cards, with the differences highlighted" width="760">
+
 Open:<br><img src="images/look-stacked-open.png" alt="Stacked layout, open surface" width="1000">
 
 *Inline (two rows of five here, because ten metrics do not fit one row in this window)*
