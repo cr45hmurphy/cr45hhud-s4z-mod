@@ -56,6 +56,14 @@ test('Rows, Column, label modes and Power-up name',{skip:!chromium?'playwright-c
   const page=await browser.newPage({viewport:{width:1300,height:600}});
   await page.goto(`http://127.0.0.1:${server.address().port}/tests/layout/harness.html`);
   await page.waitForFunction('typeof window.renderHud==="function"');
+  // Regression checks found by looking at screenshots.
+  for(const surface of ['plate','cards'])await t.test(`active Power-up keeps its green ring on ${surface}`,async()=>{
+   await page.evaluate(([i,o,w])=>window.renderHud(i,o,w),[[{...PUP,state:'active'},...BASE],{hudSurface:surface,hudLayout:'stacked'},1000]);
+   const shadow=await page.evaluate(()=>getComputedStyle(document.querySelector('.m-iconcell')).boxShadow);
+   assert.match(shadow,/82, 212, 157/,'the green ring is missing: '+shadow);});
+  for(const layout of ['inline','side'])await t.test(`${layout}: six metrics fit one row in the default 920 px window`,async()=>{
+   const r=await page.evaluate(([i,o,w])=>window.renderHud(i,o,w),[BASE,{hudLayout:layout,hudSurface:'cards'},920]);
+   assert.equal(r.stacked,false,'the row wrapped');});
   for(const c of cases)await t.test(c.name,async()=>{const r=await page.evaluate(([i,o,w])=>window.renderHud(i,o,w),[items(c.data),c.over,c.width]);check(c,r);});
  }finally{await browser.close();server.close();}
 });
