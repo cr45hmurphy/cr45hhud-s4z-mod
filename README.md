@@ -1,4 +1,4 @@
-<p align="center"><img src="images/logo.png" alt="CR45H HUD" width="128"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/cr45hmurphy/cr45hhud-s4z-mod/master/images/logo-512x512.webp" alt="CR45H HUD" width="128"></p>
 
 # CR45H HUD
 
