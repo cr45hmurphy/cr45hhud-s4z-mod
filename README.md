@@ -226,8 +226,6 @@ The settings window:<br><img src="images/settings-progress-bar.png" alt="Ride Pr
 - **Window height.** The window does not resize itself to its content. Rows, Column and a docked progress bar need a taller window than one row does; if the window is too short, the lower rows are cut off. Drag the window taller.
 - **Laps and events.** The progress bar covers the current lap, not a whole multi-lap event. In an event, the Lap label shows the lap count when Sauce provides it. Events and the "to go" lines have not been tried in a real event yet.
 - **Segment types.** Sprint, climb and loop come from each segment's name and its loop flag. A few unnamed ones are listed by hand, and anything unrecognized shows as Segment.
-- **Power-up.** Built from how Sauce's own PowerUp field works. It has not been tried with a real power-up yet.
-- **Sauce version.** Built and tried on Sauce for Zwift 2.4.x. Other versions may differ.
 
 ## Feedback
 
