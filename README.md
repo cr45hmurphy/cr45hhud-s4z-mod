@@ -1,214 +1,169 @@
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Thanks again! Now go create something AMAZING! :D
--->
+<p align="center"><img src="images/logo.png" alt="CR45H HUD" width="128"></p>
 
+# CR45H HUD
 
+Two overlay windows for Sauce for Zwift, made by **cr45hmurphy**. They share one look and work on their own or together.
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+| Window | What it is |
+|---|---|
+| **Metric HUD** | Your ride numbers (power, heart rate, cadence, speed and more) in a layout you choose. |
+| **Ride Progress Bar** | How far along the route you are, with segment markers and the next segment. It can also sit inside the Metric HUD. |
 
+Everything it needs comes with Sauce. There is nothing else to download, no account, and no internet access needed.
 
+## Install
 
-<!-- PROJECT LOGO -->
-<br />
-<p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
+1. Unzip it so you end up with `Documents/SauceMods/cr45h-hud/manifest.json`. If you have no SauceMods folder, create one. ("Documents" may be called "My Documents".)
+2. **Fully quit Sauce, including from the system tray, and start it again.** Sauce keeps mod code loaded, so refreshing a window is not enough. This applies to every update, too.
+3. In Sauce, open **Mods** and enable **CR45H HUD**.
+4. From Sauce's window menu, add **Metric HUD** and **Ride Progress Bar**.
 
-  <h3 align="center">Best-README-Template</h3>
+Right-click a window for its controls. The gear opens its settings.
 
-  <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
-  </p>
-</p>
+## Good to know
 
+- **Text size is a setting.** It does not follow the window size, so resize the window to fit your text. In the Metric HUD it sizes the metrics; a docked progress bar has its own size.
+- **Taller windows.** The Metric HUD needs more height when rows wrap or a progress bar is docked.
+- **Power-up needs Game Connection.** Turn it on in Sauce's own settings (General).
 
+---
 
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
-</details>
+## Metric HUD
 
+### Metrics
 
+Pick which metrics to show, and their order, in the **Metrics** list at the bottom of the settings.
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+| Metric | Shows |
+|---|---|
+| Power | Watts. Colored by your power zone. |
+| Heart rate | Beats per minute. |
+| Cadence | Revolutions per minute. |
+| Speed | Km/h or mph. |
+| Distance | Distance ridden. |
+| Ride time | Time on the clock. |
+| Elevation | Meters or feet climbed. |
+| Grade | Current gradient, in percent. |
+| Power / weight | Watts per kilogram. |
+| Power-up | Icon of the power-up you are holding (see below). |
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+### Look
 
-There are many great README templates available on GitHub, however, I didn't find one that really suit my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+Two settings that combine freely: **Layout** is how a metric is arranged inside its cell, **Surface** is what is drawn behind the metrics.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should element DRY principles to the rest of your life :smile:
+| Setting | Options |
+|---|---|
+| **Layout** | **Stacked**: label above the number (the default). **Inline**: label, number and unit on one line; slim, no second line. **Side**: a big number with the label and unit beside it. |
+| **Surface** | **Plate**: one slab with thin dividers (the default). **Cards**: a box per metric. **Open**: nothing drawn, no surface and no lines; text gets the outline setting instead. |
+| **Labels** | Text, icons, or none. |
+| **Surface opacity** | How see-through the plate or cards are. |
+| **Corners** | Square, slightly rounded, or rounded. For the plate or cards only. The docked progress bar has its own Corners setting. |
+| **Text outline** | None, light, medium or heavy. A dark edge that keeps text readable over bright scenery. |
+| **Zone color** | Power takes the color of your current power zone: a stripe under the number, or the number itself. Uses your FTP from Zwift. |
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have have contributed to expanding this template!
+Every cell in a row is the same height, with the label at the top and the number at the bottom. Every normal cell is one unit wide, on both sides of a split.
 
-A list of commonly used resources that I find helpful are listed in the acknowledgements.
+### Second lines
 
-### Built With
+A small second line under a metric. One switch turns them all off; each metric also has its own switch.
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-* [Laravel](https://laravel.com)
+| Metric | Shows | Default |
+|---|---|---|
+| **Power** | Watts per kilogram. | On |
+| **W/kg** | The watts. | On |
+| **Heart rate, Cadence, Speed** | This ride's average. | Off |
+| **Distance** | What is left of your route or event ("to go"). | On |
+| **Ride time** | The time of day (clock time). | On |
 
+### Arrangement
 
+| Arrangement | Result |
+|---|---|
+| One row | All metrics in a line. |
+| Rows | A fixed number of metrics per row. |
+| Column | A vertical stack for a screen edge. |
 
-<!-- GETTING STARTED -->
-## Getting Started
+Options that combine with them:
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+| Option | Works with | Result |
+|---|---|---|
+| **Grouping: two groups with a gap** | One row | Choose which metric the gap comes after. |
+| **Grouping: split to the window edges** | One row | Two groups pushed to the left and right edges, leaving the middle clear. |
+| **First metric large** | All | The first metric in your list becomes a wider box, **Large size** units wide (1 to 3), with a bigger number and unit. Its label, second line and height match the other cells. A Power-up cell never takes this slot; the large box goes to the first real metric. |
 
-### Prerequisites
+When a window is too narrow, rows split on their own instead of squeezing the numbers. Groups stack when they no longer fit side by side.
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+### Power-up
 
-### Installation
+The Power-up cell shows only the icon, in a square as tall as the row.
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
-   ```
+| State | What you see |
+|---|---|
+| Holding one | Its icon. |
+| Using one | Its icon with a green outline. |
+| Nothing held | A dim bolt. |
+| No Game Connection | A dim bolt. |
 
+The **Power-up name** setting adds the name beside the icon, plus the seconds left while it is active.
 
+### Progress bar
 
-<!-- USAGE EXAMPLES -->
-## Usage
+Show the Ride Progress Bar **above** or **below** the metrics, or keep it **off**. A docked bar has every setting the standalone window has (see below), plus its own **Progress bar text size**, so it can be sized separately from the metrics.
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+---
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+## Ride Progress Bar
 
+Shows how far along the current route you are, with the lead-in, the segments ahead and the next segment.
 
+### Bar
 
-<!-- ROADMAP -->
-## Roadmap
+| Setting | Options |
+|---|---|
+| **Style** | **Full bar**. **Compact bar**: one row, labels inside the bar. **Thin line**. |
+| **Line layout** | For the thin line. **Line only**: no labels. **Labels beside** the line. **Labels on their own row**. **Raised segment markers**. |
+| **Minimum bar height** | The bar grows if its text needs more room. |
+| **Corners** | Square, slightly rounded, or rounded. |
+| **Your position** | A bar, a notch (arrow above), or none. |
+| **Show lead-in** | The hatched section before the route starts, or the connector between laps. |
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
+### Labels
 
+| Setting | Options |
+|---|---|
+| **Left, middle and right label** | Each one: Route name, Next segment, Lap, or Nothing. |
+| **Label row** | Above the bar, below it, or split (left label above, right label below). |
+| **Swap route name for next segment** | When a segment is close, or while you ride one, a Route name label shows the next segment instead. You choose how close. |
+| **Progress readout** | Distance left, percent complete, both, or nothing. Always at the far right. |
+| **Text outline** | None, light, medium or heavy. |
 
+### Segments
 
-<!-- CONTRIBUTING -->
-## Contributing
+| Setting | Options |
+|---|---|
+| **Segment markers** | Colored marks where segments start and end. |
+| **Marker colors** | Zwift colors, lighter, or colorblind-friendly. Sprints are green, climbs red, loops orange. |
+| **Include loops** | Loop segments often cover a whole lap, so you can hide them. |
+| **Highlight upcoming segment** | The next-segment label pulses in the last 500 m, turns solid while you ride the segment, and its marker brightens. |
+| **Next segment shows** | Its type (Sprint, Climb, Loop) or its full name. |
+| **Next segment color** | The segment's color, or white. |
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+---
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## Known limits
 
+- **Laps and events.** The progress bar covers the current lap, not a whole multi-lap event. In an event, the Lap label shows the lap count when Sauce provides it. Events and the "to go" lines have not been tried in a real event yet.
+- **Segment types.** Sprint, climb and loop come from each segment's name and its loop flag. A few unnamed ones are listed by hand, and anything unrecognized shows as Segment.
+- **Power-up.** Built from how Sauce's own PowerUp field works. It has not been tried with a real power-up yet.
+- **Sauce version.** Built and tried on Sauce for Zwift 2.4.x. Other versions may differ.
 
+## Feedback
 
-<!-- LICENSE -->
-## License
+Found a problem? Tell cr45hmurphy which window and settings you were using, what you expected, and what happened. A screenshot helps.
 
-Distributed under the MIT License. See `LICENSE` for more information.
+## Development
 
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
-
-
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
+- Tests: `node --test tests/`
+- Build a test package: `python package.py` (writes `dist/cr45h-hud-<version>.zip` and checks it).
+- The repository also has Focus Dashboard, Metric Clusters and Power Zone Bar windows that have not had a design pass yet. They are not in the test package.
+- History: `CHANGELOG.md`. Early mockups: `design-history/`.

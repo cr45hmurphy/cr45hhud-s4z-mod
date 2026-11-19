@@ -1,0 +1,25 @@
+<!doctype html>
+<!-- Layout harness for layout.test.mjs: draws the Metric HUD with the real overlay.css and hud-view.mjs and reports
+     the size of every cell. Open it through a static server (for example `npx http-server .` from the mod folder). -->
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../pages/overlay.css">
+<style>html{background:#7fa6c8}body{margin:0;font-family:Arial,sans-serif}
+#content{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:.5em;font-size:16px;padding:4px;box-sizing:border-box}</style></head>
+<body data-style="strip" data-corners="square" data-outline="normal"><div id="content"><div id="display"></div></div>
+<script type="module">
+import {defaults,normalize} from '../../pages/config.mjs';
+import {drawHud} from '../../pages/hud-view.mjs';
+window.renderHud=(items,over,width)=>{
+ const cfg=normalize({...defaults('strip'),...over},'strip');
+ document.body.dataset.corners=cfg.cornerStyle;document.body.dataset.hudcorners=cfg.hudCorners;
+ document.getElementById('content').style.width=width+'px';
+ const d=document.getElementById('display');
+ drawHud(d,items,cfg);
+ return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  const root=d.getBoundingClientRect();
+  const cells=[...d.querySelectorAll('.m')].map(m=>{const b=m.getBoundingClientRect(),l=m.querySelector('.m-label'),v=m.querySelector('.value');
+   const g=[...d.children].indexOf(m.parentElement);
+   return {group:g,hero:m.classList.contains('hero'),pup:m.classList.contains('m-iconcell'),x:b.x-root.x,y:b.y-root.y,w:b.width,h:b.height,
+    labelPx:l?parseFloat(getComputedStyle(l).fontSize):null,valuePx:v?parseFloat(getComputedStyle(v).fontSize):null};});
+  r({stacked:d.classList.contains('stacked'),rootW:root.width,cells});})));};
+</script></body></html>
