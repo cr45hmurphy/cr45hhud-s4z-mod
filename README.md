@@ -124,6 +124,8 @@ Off (master switch):<br><img src="images/second-lines-off.png" alt="Second lines
 | Rows | A fixed number of metrics per row. |
 | Column | A vertical stack for a screen edge. |
 
+The Arrangement and Progress bar part of the Metric HUD settings:<br><img src="images/settings-metric-hud-arrangement.png" alt="Metric HUD settings, Arrangement and Progress bar" width="485">
+
 Options that combine with them:
 
 | Option | Works with | Result |
@@ -187,6 +189,14 @@ Shows how far along the current route you are, with the lead-in, the segments ah
 | **Corners** | Square, slightly rounded, or rounded. |
 | **Your position** | A bar, a notch (arrow above), or none. |
 | **Show lead-in** | The hatched section before the route starts, or the connector between laps. |
+
+Full bar:<br><img src="images/progress-full.png" alt="Full bar" width="976">
+
+Compact bar:<br><img src="images/progress-compact.png" alt="Compact bar" width="976">
+
+Thin line:<br><img src="images/progress-thin.png" alt="Thin line" width="976">
+
+The settings window:<br><img src="images/settings-progress-bar.png" alt="Ride Progress Bar settings" width="545">
 
 ### Labels
 
