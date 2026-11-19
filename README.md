@@ -198,6 +198,81 @@ Thin line:<br><img src="images/progress-thin.png" alt="Thin line" width="976">
 
 The settings window:<br><img src="images/settings-progress-bar.png" alt="Ride Progress Bar settings" width="545">
 
+<details>
+<summary><b>Every progress bar option, one at a time</b></summary>
+
+Each shot changes one setting from the default (Full bar, Square, Your position: Bar, lead-in on, left label Route name, right label Next segment, Label row above the bar, Distance left, Medium outline, Zwift colors). The route and the scenery change from shot to shot.
+
+**Corners**
+
+Slightly rounded:<br><img src="images/pb-corners-slightly-rounded.png" alt="Slightly rounded" width="976">
+
+Rounded:<br><img src="images/pb-corners-rounded.png" alt="Rounded" width="976">
+
+**Your position**
+
+Notch (arrow above):<br><img src="images/pb-position-notch.png" alt="Notch (arrow above)" width="976">
+
+None (end of the fill):<br><img src="images/pb-position-none.png" alt="None (end of the fill)" width="976">
+
+**Show lead-in**
+
+Lead-in off:<br><img src="images/pb-lead-in-off.png" alt="Lead-in off" width="976">
+
+**Label row**
+
+Below the bar:<br><img src="images/pb-label-row-below.png" alt="Below the bar" width="976">
+
+Split: left label above, right label below:<br><img src="images/pb-label-row-split.png" alt="Split: left label above, right label below" width="976">
+
+**Labels**
+
+Left label: Lap:<br><img src="images/pb-label-left-lap.png" alt="Left label: Lap" width="976">
+
+Middle label: Next segment:<br><img src="images/pb-label-middle-next.png" alt="Middle label: Next segment" width="976">
+
+Right label: Nothing:<br><img src="images/pb-label-right-nothing.png" alt="Right label: Nothing" width="976">
+
+Swap route name for next segment:<br><img src="images/pb-swap-route-name.png" alt="Swap route name for next segment" width="976">
+
+**Progress readout**
+
+Percent complete:<br><img src="images/pb-readout-percent.png" alt="Percent complete" width="976">
+
+Distance left and percent:<br><img src="images/pb-readout-both.png" alt="Distance left and percent" width="976">
+
+Nothing:<br><img src="images/pb-readout-none.png" alt="Nothing" width="976">
+
+**Text outline**
+
+None:<br><img src="images/pb-outline-none.png" alt="None" width="976">
+
+Heavy:<br><img src="images/pb-outline-heavy.png" alt="Heavy" width="976">
+
+**Segments**
+
+Segment markers off:<br><img src="images/pb-markers-off.png" alt="Segment markers off" width="976">
+
+Marker colors: Lighter:<br><img src="images/pb-colors-lighter.png" alt="Marker colors: Lighter" width="976">
+
+Marker colors: Colorblind-friendly:<br><img src="images/pb-colors-colorblind.png" alt="Marker colors: Colorblind-friendly" width="976">
+
+Highlight upcoming segment off:<br><img src="images/pb-highlight-off.png" alt="Highlight upcoming segment off" width="976">
+
+Next segment shows: full segment name:<br><img src="images/pb-next-full-name.png" alt="Next segment shows: full segment name" width="976">
+
+Next segment color: White:<br><img src="images/pb-next-color-white.png" alt="Next segment color: White" width="976">
+
+**Thin line layouts**
+
+Line only, no labels:<br><img src="images/pb-line-only.png" alt="Line only, no labels" width="976">
+
+Labels on their own row:<br><img src="images/pb-line-own-row.png" alt="Labels on their own row" width="976">
+
+Labels beside, raised segment markers:<br><img src="images/pb-line-raised.png" alt="Labels beside, raised segment markers" width="976">
+
+</details>
+
 ### Labels
 
 | Setting | Options |
