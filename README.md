@@ -4,6 +4,8 @@
 
 Two overlay windows for Sauce for Zwift, made by **cr45hmurphy**. They share one look and work on their own or together.
 
+<img src="images/hud-hero.png" alt="The Metric HUD on the Plate surface, showing a held power-up" width="1000">
+
 | Window | What it is |
 |---|---|
 | **Metric HUD** | Your ride numbers (power, heart rate, cadence, speed and more) in a layout you choose. |
