@@ -2,6 +2,8 @@
 
 # CR45H HUD
 
+Current stable version: **1.0.0**.
+
 Two overlay windows for Sauce for Zwift, made by **cr45hmurphy**. They share one look and work on their own or together.
 
 <img src="images/hud-hero.png" alt="The Metric HUD on the Plate surface, showing a held power-up" width="1000">
@@ -39,6 +41,7 @@ Pick which metrics to show, and their order, in the **Metrics** list at the bott
 | Metric | Shows |
 |---|---|
 | Power | Watts. Colored by your power zone. |
+| Draft | Watts saved through drafting, as reported by Sauce. |
 | Heart rate | Beats per minute. |
 | Cadence | Revolutions per minute. |
 | Speed | Km/h or mph. |
@@ -58,6 +61,8 @@ Two settings that combine freely: **Layout** is how a metric is arranged inside 
 | **Layout** | **Stacked**: label above the number (the default). **Inline**: label, number and unit on one line; slim, no second line. **Side**: a big number with the label and unit beside it. |
 | **Surface** | **Plate**: one slab with thin dividers (the default). **Cards**: a box per metric. **Open**: nothing drawn, no surface and no lines; text gets the outline setting instead. |
 | **Labels** | Text, icons, or none. |
+| **Card spacing** | Gap between cards, in pixels; independent of text size. |
+| **Card / plate cell width** | Preferred width per metric, in pixels. 0 keeps automatic sizing. |
 | **Surface opacity** | How see-through the plate or cards are. |
 | **Corners** | Square, slightly rounded, or rounded. For the plate or cards only. The docked progress bar has its own Corners setting. |
 | **Text outline** | None, light, medium or heavy. A dark edge that keeps text readable over bright scenery. |
@@ -161,7 +166,7 @@ The Power-up cell shows only the icon, in a square as tall as the row.
 | State | What you see |
 |---|---|
 | Holding one | Its icon. |
-| Using one | Its icon with a green outline. |
+| Using one | Its icon with a circular countdown sweep showing remaining time. |
 | Nothing held | A dim bolt. |
 | No Game Connection | A dim bolt. |
 
@@ -315,6 +320,5 @@ Found a problem? Tell cr45hmurphy which window and settings you were using, what
 ## Development
 
 - Tests: `node --test tests/`
-- Build a test package: `python package.py` (writes `dist/cr45h-hud-<version>.zip` and checks it).
-- The repository also has Focus Dashboard, Metric Clusters and Power Zone Bar windows that have not had a design pass yet. They are not in the test package.
+- Build a release package: `python package.py` (packages committed files from HEAD into `dist/cr45h-hud-<version>.zip` and checks it).
 - History: `CHANGELOG.md`. Early mockups: `design-history/`.

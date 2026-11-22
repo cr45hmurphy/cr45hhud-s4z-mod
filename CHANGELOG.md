@@ -1,6 +1,21 @@
 # Changelog
 
-Newest entries are at the bottom (development history, 0.1.x).
+## 1.0.0 - 2026-11-21
+
+First stable release of CR45H HUD for Sauce for Zwift.
+
+- Metric HUD with Stacked, Inline and Side layouts; Plate, Cards and Open surfaces; configurable arrangement, labels, corners and opacity.
+- Adjustable card spacing and metric widths, independent of text size.
+- Draft watts-saved metric with an optional ride-average second line.
+- Circular power-up countdown driven by Sauce's active power-up timer.
+- More clearance between power-zone stripes and second lines; corrected clipped text descenders.
+- Standalone or docked Ride Progress Bar with route progress, segment markers and configurable labels.
+
+The experimental Ride On sender feature is not included.
+
+Install by extracting the cr45h-hud folder into Documents/SauceMods. Fully quit Sauce, including the system tray, and restart it after updating.
+
+Development history follows. Older 0.1.x entries are chronological.
 
 ## 0.2.0
 

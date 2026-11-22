@@ -4,7 +4,7 @@
   "name": "CR45H HUD",
   "author": "cr45hmurphy",
   "description": "CR45H HUD: a customizable Metric HUD and a Ride Progress Bar with segment markers, in one shared look.",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "web_root": "pages",
   "windows": [
     {
