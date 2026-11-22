@@ -4,8 +4,8 @@
 // dividers), cards (a box per metric), open (nothing drawn, outlined text). Any layout works with any surface.
 // Arrangements: One row, Rows (N per row), Column. Options that combine with them: two groups with a gap or
 // split to the window edges (One row only), and a large first metric (any arrangement).
-export const ICONS={power:'bolt',heartrate:'favorite',cadence:'autorenew',speed:'speed',distance:'route',climbing:'landscape',time:'timer',grade:'trending_up',wkg:'monitor_weight',powerup:'rocket_launch'};
-export const SHORT={power:'Power',heartrate:'HR',cadence:'Cadence',speed:'Speed',distance:'Distance',climbing:'Climbed',time:'Time',grade:'Grade',wkg:'W/kg',powerup:'Power-up'};
+export const ICONS={power:'bolt',draft:'air',heartrate:'favorite',cadence:'autorenew',speed:'speed',distance:'route',climbing:'landscape',time:'timer',grade:'trending_up',wkg:'monitor_weight',powerup:'rocket_launch'};
+export const SHORT={power:'Power',draft:'Draft',heartrate:'HR',cadence:'Cadence',speed:'Speed',distance:'Distance',climbing:'Climbed',time:'Time',grade:'Grade',wkg:'W/kg',powerup:'Power-up'};
 // Power-up, as Sauce's own PowerUp grid field reads it: gameState.availablePowerUp is the one you are holding,
 // gameState.activePowerUp (with activePowerUpEnd, epoch ms) the one in use. Needs Sauce's Game Connection.
 const PUP={LIGHTNESS:'Feather',DRAFTBOOST:'Draft',UNDRAFTABLE:'Undraftable',AERO:'Aero',NINJA:'Ghost',STEAMROLLER:'Steamroller',ANVIL:'Anvil',COFFEE_STOP:'Coffee Stop',BOOST:'Boost',BONUS_XP:'XP++',BONUS_XP_LIGHT:'XP'};
@@ -22,7 +22,7 @@ const avg=v=>Number.isFinite(v)&&v>0?v:null;
 
 // Second lines (0.4.0): a master switch plus one switch per metric (hudSub<Key>). Ride time shows the clock time
 // (time of day), not an ETA. Distance keeps "to go". Power-up always reports its own state (it is not a text line).
-export const SUB_KEYS=['power','wkg','heartrate','cadence','speed','distance','time'];
+export const SUB_KEYS=['power','draft','wkg','heartrate','cadence','speed','distance','time'];
 export const subOn=(k,cfg)=>!!cfg.hudSecond&&!!cfg['hudSub'+k[0].toUpperCase()+k.slice(1)];
 export function clockTime(now=new Date(),imperial=false){return now.toLocaleTimeString([],{hour:'numeric',minute:'2-digit',hour12:imperial?true:undefined});}
 // The small second line under a metric. Null when there is nothing useful to show.
@@ -32,6 +32,7 @@ export function secondLine(k,data,cfg,now=new Date()){
  if(!subOn(k,cfg))return null;
  if(k==='power')return w>0&&Number.isFinite(s.power)?`${(s.power/w).toFixed(1)} W/kg`:null;
  if(k==='wkg')return Number.isFinite(s.power)?`${Math.round(s.power)} W`:null;
+ if(k==='draft'){const a=st.draft?.avg;return Number.isFinite(a)&&a>=0?`avg ${Math.round(a)} W`:null;}
  if(k==='heartrate'){const a=avg(st.hr?.avg);return a?`avg ${Math.round(a)}`:null;}
  if(k==='cadence'){const a=avg(st.cadence?.avg);return a?`avg ${Math.round(a)}`:null;}
  if(k==='speed'){const a=avg(st.speed?.avg);return a?`avg ${(imperial?a*.621371:a).toFixed(1)}`:null;}
