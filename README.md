@@ -330,5 +330,5 @@ Found a problem? Tell cr45hmurphy which window and settings you were using, what
 ## Development
 
 - Tests: `node --test tests/`
-- Build a release package: `python package.py` (packages committed files from HEAD into `dist/cr45h-hud-<version>.zip` and checks it).
+- Build a release package: `python package.py` (packages committed runtime files from HEAD into `dist/cr45h-hud-<version>.zip` and checks it). The upload ZIP includes the manifest, license and `pages/`; README screenshots, tests, captures and Git metadata stay out of it. Documentation and screenshots remain on GitHub.
 - History: `CHANGELOG.md`. Early mockups: `design-history/`.

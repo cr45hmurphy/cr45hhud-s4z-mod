@@ -1,4 +1,4 @@
-"""Build an installable Sauce mod ZIP from committed files, never local captures."""
+"""Build a runtime-only Sauce mod ZIP from committed files, never screenshots or captures."""
 import argparse
 import hashlib
 import json
@@ -21,14 +21,15 @@ def build(ref='HEAD'):
     if not re.fullmatch(r'\d+\.\d+\.\d+', version) or manifest['id'] != 'cr45h-hud':
         raise ValueError('Expected the cr45h-hud manifest with a stable semantic version')
     files = git('ls-tree', '-r', '--name-only', '-z', commit).decode().split('\0')
-    include = {'manifest.json', 'README.md', 'CHANGELOG.md', 'LICENSE.txt'}
-    files = sorted(p for p in files if p in include or p.startswith(('pages/', 'images/')))
+    # Repository images are documentation screenshots, not runtime assets.
+    include = {'manifest.json', 'LICENSE.txt'}
+    files = sorted(p for p in files if p in include or p.startswith('pages/'))
     required = include | {window['file'] for window in manifest['windows']}
     if not required.issubset(files):
         raise ValueError(f'Missing package files: {required - set(files)}')
     destination = ROOT / 'dist' / f'cr45h-hud-{version}.zip'
     destination.parent.mkdir(exist_ok=True)
-    with zipfile.ZipFile(destination, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
+    with zipfile.ZipFile(destination, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for path in files:
             info = zipfile.ZipInfo(f'cr45h-hud/{path}', date_time=(1980, 1, 1, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
