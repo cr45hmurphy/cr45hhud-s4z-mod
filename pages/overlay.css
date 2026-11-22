@@ -144,7 +144,7 @@ body[data-style=strip] #progress .route-heading{padding:0 .1em}
 .m .unit{grid-area:unit;font-size:var(--us);font-weight:500;color:rgba(232,236,241,.78)}
 /* Even band (0.4.0): every cell in a row is as tall as the tallest one. Label on top, number and second line at the bottom. */
 .hud[data-layout=stacked]:not([data-arrange=column]) .m :is(.value,.unit){align-self:end;align-self:last baseline}
-.m .m-sub{grid-area:sub;font-size:.75em;font-weight:500;color:rgba(232,236,241,.66);overflow:hidden;text-overflow:ellipsis}
+.m .m-sub{grid-area:sub;font-size:.75em;font-weight:500;line-height:1.3;padding:.08em 0 .18em;color:rgba(232,236,241,.66);overflow:hidden;text-overflow:ellipsis}
 .m .m-stripe{position:absolute;left:0;right:0;bottom:0;height:max(3px,.25em);background:var(--zc)}
 .hud[data-zone=number] .m .value{color:var(--zc,#fff)}
 /* Side: a big number with the label above the unit beside it (Arckuk top bar). */

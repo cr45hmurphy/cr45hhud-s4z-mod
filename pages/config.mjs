@@ -1,4 +1,4 @@
-export const catalog={power:['Power','W'],heartrate:['Heart rate','bpm'],cadence:['Cadence','rpm'],speed:['Speed','km/h'],distance:['Distance','km'],climbing:['Elevation','m'],time:['Ride time',''],grade:['Grade','%'],wkg:['Power / weight','W/kg'],powerup:['Power-up','']};
+export const catalog={power:['Power','W'],draft:['Draft','W'],heartrate:['Heart rate','bpm'],cadence:['Cadence','rpm'],speed:['Speed','km/h'],distance:['Distance','km'],climbing:['Elevation','m'],time:['Ride time',''],grade:['Grade','%'],wkg:['Power / weight','W/kg'],powerup:['Power-up','']};
 export function defaults(style){return {fields:style==='focus'?['power','heartrate','cadence','speed','distance']:style==='strip'?['power','heartrate','cadence','speed','distance','time']:['speed','distance','time','power','heartrate','cadence'],columns:style==='strip'?6:3,themeOverride:'',fontScale:1,solidBackground:false,backgroundColor:'#000000',backgroundAlpha:100,opacity:.75,scale:1,units:'metric',ftp:250,barThickness:12,showLeadIn:true,
  cornerStyle:'square',density:'standard',lineLayout:'ends',riderMarker:'bar',textOutline:'normal',
  // Text: the same settings drive every style (Standard heading, Compact inside the bar, Thin line beside/above).
@@ -7,7 +7,7 @@ export function defaults(style){return {fields:style==='focus'?['power','heartra
  showIndicators:true,approachCue:true,segmentText:'type',nextColor:'segment',segmentPalette:'game',showLoops:true,
  showZone:true,showTime:false,
  // Metric HUD (strip window): look, arrangement and the optional docked progress bar.
- hudCardGap:2,hudCellWidth:0,hudLayout:'stacked',hudSurface:'plate',hudCorners:'square',hudArrange:'row',hudLabels:'text',hudSecond:true,hudSubPower:true,hudSubWkg:true,hudSubHeartrate:false,hudSubCadence:false,hudSubSpeed:false,hudSubDistance:true,hudSubTime:true,hudPupName:false,hudZone:'stripe',hudGroup:'none',hudSplit:3,hudHero:false,hudHeroSize:1.6,hudPerRow:3,hudProgress:'off',hudProgressScale:1};}
+ hudCardGap:2,hudCellWidth:0,hudLayout:'stacked',hudSurface:'plate',hudCorners:'square',hudArrange:'row',hudLabels:'text',hudSecond:true,hudSubPower:true,hudSubDraft:false,hudSubWkg:true,hudSubHeartrate:false,hudSubCadence:false,hudSubSpeed:false,hudSubDistance:true,hudSubTime:true,hudPupName:false,hudZone:'stripe',hudGroup:'none',hudSplit:3,hudHero:false,hudHeroSize:1.6,hudPerRow:3,hudProgress:'off',hudProgressScale:1};}
 const ENUMS={cornerStyle:['square','soft','rounded'],density:['standard','compact','line'],lineLayout:['bare','ends','above','raised'],riderMarker:['bar','notch','none'],textOutline:['off','light','normal','heavy'],
  textLeft:['name','next','lap','none'],textMiddle:['name','next','lap','none'],textRight:['name','next','lap','none'],distanceDisplay:['km','percent','both','none'],textPosition:['above','below','split'],
 segmentText:['type','name'],nextColor:['segment','white'],segmentPalette:['game','lifted','safe'],
@@ -51,7 +51,7 @@ export function normalize(raw,style){const d=defaults(style),c={...d,...raw,...m
  c.columns=Math.round(c.columns);c.hudSplit=Math.round(c.hudSplit);c.hudPerRow=Math.round(c.hudPerRow);
  for(const [k,allowed] of Object.entries(ENUMS))if(!allowed.includes(c[k]))c[k]=d[k];
  c.units=c.units==='imperial'?'imperial':'metric';
- for(const k of ['showLeadIn','showZone','showTime','solidBackground','swapToNext','showLoops','showIndicators','approachCue','hudSecond','hudSubPower','hudSubWkg','hudSubHeartrate','hudSubCadence','hudSubSpeed','hudSubDistance','hudSubTime','hudPupName','hudHero'])c[k]=typeof c[k]==='boolean'?c[k]:d[k];
+ for(const k of ['showLeadIn','showZone','showTime','solidBackground','swapToNext','showLoops','showIndicators','approachCue','hudSecond','hudSubPower','hudSubDraft','hudSubWkg','hudSubHeartrate','hudSubCadence','hudSubSpeed','hudSubDistance','hudSubTime','hudPupName','hudHero'])c[k]=typeof c[k]==='boolean'?c[k]:d[k];
  return c;}
 export function initStore(store,style){const d=defaults(style);if(store.get('fontScale')===undefined&&Number.isFinite(store.get('scale')))store.set('fontScale',store.get('scale'));
  // Rewrite old saved values in the store itself so the settings form shows the current choice.

@@ -61,3 +61,14 @@ test('held power-ups and missing game connection have no active countdown',()=>{
  assert.equal(p.state,'available');assert.equal(p.end,null);assert.equal(p.secs,null);
  assert.equal(powerUpInfo({gameState:{gameConnection:false,activePowerUp:'AERO',activePowerUpEnd:31000}},1000),null);
 });
+
+test('Draft can be selected and its optional average includes zero savings',()=>{
+ const cfg=normalize({fields:['power','draft','speed'],hudSubDraft:true},'strip');
+ assert.deepEqual(cfg.fields,['power','draft','speed']);
+ assert.equal(secondLine('draft',{stats:{draft:{avg:42.6}}},cfg),'avg 43 W');
+ assert.equal(secondLine('draft',{stats:{draft:{avg:0}}},cfg),'avg 0 W');
+ assert.equal(secondLine('draft',{stats:{draft:{avg:-1}}},cfg),null);
+ assert.equal(secondLine('draft',{},cfg),null);
+ assert.equal(secondLine('draft',{stats:{draft:{avg:43}}},{...cfg,hudSecond:false}),null);
+ assert.equal(secondLine('draft',{stats:{draft:{avg:43}}},normalize({},'strip')),null);
+});

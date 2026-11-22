@@ -176,3 +176,7 @@ Added Card spacing (0-40 px) and Card / plate cell width (0-400 px; 0 keeps auto
 ## Power-up countdown
 
 Replaced the green active-power-up highlight with Sauce's circular white-to-grey countdown sweep, using the same activePowerUpEnd timestamp as its PowerUpField. The animation keeps its original start across HUD redraws and works with the optional power-up name hidden or shown. Updated the settings description and added deadline/reset tests.
+
+## Draft metric and second-line spacing
+
+Added Draft to the selectable Metrics list, showing current watts saved from Sauce state.draft. Added an optional Draft (average) second line, off by default, including valid zero-watt averages. Existing metric selections stay unchanged. Increased second-line line height and vertical padding so descenders such as the g in avg and W/kg are not clipped.
