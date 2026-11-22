@@ -14,7 +14,7 @@ const pupName=t=>PUP[t]||String(t).toLowerCase().replace(/_/g,' ').replace(/^./,
 export function powerUpInfo(data,now=Date.now()){const gs=data?.gameState;if(!gs||!gs.gameConnection)return null;
  const type=gs.activePowerUp||gs.availablePowerUp;if(!type)return {state:'none',name:'None',icon:null,secs:null};
  const active=!!gs.activePowerUp,secs=active&&Number.isFinite(gs.activePowerUpEnd)?Math.max(0,Math.round((gs.activePowerUpEnd-now)/1000)):null;
- return {state:active?'active':'available',name:pupName(type),icon:`/pages/images/powerups/${type}.svg`,secs};}
+ return {state:active?'active':'available',name:pupName(type),icon:`/pages/images/powerups/${type}.svg`,secs,end:active&&Number.isFinite(gs.activePowerUpEnd)?gs.activePowerUpEnd:null};}
 
 function duration(s){if(!Number.isFinite(s)||s<0)return null;s=Math.floor(s);const h=Math.floor(s/3600),m=Math.floor(s%3600/60),r=s%60;
  return h?`${h}:${String(m).padStart(2,'0')}:${String(r).padStart(2,'0')}`:`${m}:${String(r).padStart(2,'0')}`;}
@@ -41,11 +41,26 @@ export function secondLine(k,data,cfg,now=new Date()){
   return `${(data.remaining/(imperial?1609.344:1000)).toFixed(1)} to go`;
  return null;}
 
+// Sauce's PowerUpField starts a circular countdown from the first observed remaining time.
+// Keep that start across redraws; a negative animation delay restores the elapsed portion.
+export function powerUpCountdown(previous,icon,end,now=Date.now()){
+ if(!icon||!Number.isFinite(end)||end<=now)return null;
+ const start=previous?.icon===icon&&previous.end===end?previous.start:now;
+ return {icon,end,start,duration:end-start,elapsed:Math.max(0,now-start)};
+}
+const powerUpTimers=new WeakMap();
+
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!=null)n.textContent=text;return n;};
 
 // items: [{key,label,value,unit,sub,zone}] in display order. zone is a CSS color or null.
 export function drawHud(root,items,cfg){
  root.className='hud';
+ const active=items.find(it=>it.key==='powerup'&&it.state==='active');
+ const countdown=powerUpCountdown(powerUpTimers.get(root),active?.icon,active?.end);
+ if(countdown)powerUpTimers.set(root,countdown);else powerUpTimers.delete(root);
+ root.style.setProperty('--card-gap',`${cfg.hudCardGap}px`);
+ root.style.setProperty('--cell-width',`${cfg.hudCellWidth}px`);
+ root.dataset.sized=cfg.hudCellWidth>0?'true':'false';
  // A second line only takes room when at least one metric has something to show.
  const anySub=items.some(i=>i.key!=='powerup'&&i.sub);
  const hero=!!cfg.hudHero&&items.length>1,grouped=cfg.hudArrange==='row'&&cfg.hudGroup!=='none'&&items.length>1;
@@ -57,7 +72,10 @@ export function drawHud(root,items,cfg){
  const piece=it=>{
   // Power-up: the icon fills the cell. No title, no "Ready"; the name (and seconds left) is optional.
   if(it.key==='powerup'){const m=el('div',`m m-powerup m-iconcell${cfg.hudPupName&&it.icon?' has-name':''}${it.state?` pup-${it.state}`:''}`);
-   if(it.icon){const i=el('img','m-icon');i.src=it.icon;i.alt=it.value;i.title=it.value;m.append(i);}else m.append(el('ms','m-icon m-icon-empty','bolt'));
+   if(it.icon){const dial=el('span','m-pupdial'),i=el('img','m-icon');i.src=it.icon;i.alt=it.value;i.title=it.value;
+    if(countdown){dial.classList.add('counting');dial.style.setProperty('--pup-duration',`${countdown.duration}ms`);dial.style.setProperty('--pup-delay',`${-countdown.elapsed}ms`);}
+    dial.append(i);m.append(dial);
+   }else m.append(el('ms','m-icon m-icon-empty','bolt'));
    if(cfg.hudPupName&&it.icon){m.append(el('span','m-pupname',it.state==='active'&&it.sub?`${it.value} ${it.sub.replace('Active · ','')}`:it.value));}
    return m;}
   const m=el('div',`m m-${it.key}${it.text?' m-text':''}${it.state?` pup-${it.state}`:''}`);
@@ -75,6 +93,13 @@ export function drawHud(root,items,cfg){
  const groups=!n?[]:grouped?[group(items.slice(0,split),true),group(items.slice(split),false)]:[group(items,true)];
  // Rows: the large box takes the first column and spans every row; the others fill N columns beside it.
  if(cfg.hudArrange==='rows')for(const g of groups)if(g.classList.contains('has-hero')){const rest=g.children.length-1,per=Math.min(cfg.hudPerRow,Math.max(1,rest));g.style.gridTemplateColumns=`minmax(0,${cfg.hudHeroSize}fr) repeat(${per},minmax(0,1fr))`;g.style.setProperty('--hero-rows',String(Math.max(1,Math.ceil(rest/per))));}
+ // A preferred width sizes each metric independently of the text size. Plate width follows its cells.
+ for(const g of groups){
+  if(cfg.hudCellWidth>0&&cfg.hudArrange==='rows'){
+   const units=g.classList.contains('has-hero')?cfg.hudHeroSize+Math.min(cfg.hudPerRow,Math.max(1,g.children.length-1)):cfg.hudPerRow;
+   g.style.maxWidth=`${units*cfg.hudCellWidth+(Math.ceil(units)-1)*(cfg.hudSurface==='plate'?0:cfg.hudCardGap)}px`;
+  }
+ }
  root.replaceChildren(...groups);
  fitHud(root);
 }
@@ -91,18 +116,20 @@ export function fitHud(root){
  const groups=[...root.querySelectorAll(':scope > .hud-group')];if(!groups.length)return;
  const em=parseFloat(getComputedStyle(root).fontSize)||16,w=root.clientWidth;if(!w)return;
  const look=root.dataset.layout,size=parseFloat(root.style.getPropertyValue('--hero-size'))||1;
- const min=({inline:MIN_CELL_RAIL,side:MIN_CELL_OPEN}[look]||MIN_CELL)*em,gap=1.5*em,ggap=parseFloat(getComputedStyle(groups[0]).columnGap)||0;
+ const preferred=parseFloat(root.style.getPropertyValue('--cell-width'))||0;
+ const min=preferred||({inline:MIN_CELL_RAIL,side:MIN_CELL_OPEN}[look]||MIN_CELL)*em,gap=1.5*em,ggap=parseFloat(getComputedStyle(groups[0]).columnGap)||0;
  const isPup=c=>c.classList.contains('m-iconcell')&&!c.classList.contains('has-name');
  const info=groups.map(g=>{const cells=[...g.children],hero=cells.some(c=>c.classList.contains('hero')),pup=cells.filter(isPup).length;
   return {g,cells,hero,pup,n:cells.filter(c=>!c.classList.contains('hero')&&!isPup(c)).length};});
  const apply=(side,band)=>{root.classList.toggle('stacked',!side);
   for(const o of info){const {g,cells}=o;
    if(!side){const h=g.querySelector(':scope > .hero');if(h&&g.firstElementChild!==h)g.prepend(h);}
-   if(side){const unit=arr==='ends'?Math.max(min,END_CELL*em):0;
+   if(side){g.style.maxWidth='';const unit=preferred||(arr==='ends'?Math.max(min,END_CELL*em):0);
     g.style.gridTemplateColumns=cells.map(c=>c.classList.contains('hero')?(unit?`${unit*size}px`:`minmax(0,${size}fr)`):isPup(c)?`${band}px`:(unit?`${unit}px`:'minmax(0,1fr)')).join(' ');
-    g.style.flex=arr==='ends'?'none':`${o.n+(o.hero?size:0)} 1 ${o.pup*band+Math.max(0,cells.length-1)*ggap}px`;
+    g.style.flex=arr==='ends'||preferred?'none':`${o.n+(o.hero?size:0)} 1 ${o.pup*band+Math.max(0,cells.length-1)*ggap}px`;
     g.style.setProperty('--cols',String(cells.length));g.style.setProperty('--hero-rows','1');
-   }else{const n=cells.length-(o.hero?1:0),per=Math.max(1,Math.floor((w-(o.hero?size*min:0))/min)),cols=Math.max(1,Math.ceil(n/Math.ceil(n/per)));
+   }else{const n=cells.length-(o.hero?1:0),per=Math.max(1,Math.floor((w-(o.hero?size*min+ggap:0)+ggap)/(min+ggap))),cols=Math.max(1,Math.ceil(n/Math.ceil(n/per)));
+    g.style.maxWidth=preferred?`${(cols+(o.hero?size:0))*preferred+(cols+(o.hero?1:0)-1)*ggap}px`:'';
     g.style.flex='';g.style.setProperty('--cols',String(cols));
     g.style.gridTemplateColumns=(o.hero?`minmax(0,${size}fr) `:'')+`repeat(${cols},minmax(0,1fr))`;
     g.style.setProperty('--hero-rows',String(Math.max(1,Math.ceil(n/cols))));}}};

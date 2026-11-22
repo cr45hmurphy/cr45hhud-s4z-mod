@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {migrate,normalize,defaults} from '../pages/config.mjs';
-import {secondLine,subOn,clockTime} from '../pages/hud-view.mjs';
+import {secondLine,subOn,clockTime,powerUpInfo,powerUpCountdown} from '../pages/hud-view.mjs';
 
 test('old looks become a layout and a surface',()=>{
  const m=l=>migrate({hudLook:l});
@@ -39,4 +39,25 @@ test('Ride time shows the clock time, not time to go',()=>{
  const cfg=normalize({}, 'strip'),now=new Date(2026,10,17,18,5);
  const v=secondLine('time',{...data,remainingMetric:'time',remaining:900},cfg,now);
  assert.equal(v,clockTime(now));assert.ok(!/to go/.test(v));
+});
+
+test('power-up countdown uses Sauce deadline and survives redraws',()=>{
+ const data={gameState:{gameConnection:true,activePowerUp:'AERO',availablePowerUp:'DRAFTBOOST',activePowerUpEnd:31000}};
+ const p=powerUpInfo(data,1000);
+ assert.equal(p.state,'active');assert.equal(p.name,'Aero');assert.equal(p.secs,30);assert.equal(p.end,31000);
+ const first=powerUpCountdown(null,p.icon,p.end,1000);
+ const next=powerUpCountdown(first,p.icon,p.end,11000);
+ assert.equal(next.duration,30000);assert.equal(next.elapsed,10000);assert.equal(next.start,1000);
+ assert.equal(powerUpCountdown(next,p.icon,p.end,31000),null);
+ assert.equal(powerUpCountdown(next,p.icon,undefined,12000),null);
+ assert.equal(powerUpCountdown(next,null,null,12000),null);
+ const reused=powerUpCountdown(next,p.icon,51000,21000);
+ assert.equal(reused.start,21000);assert.equal(reused.duration,30000);assert.equal(reused.elapsed,0);
+ const other=powerUpCountdown(next,'draft.svg',31000,11000);
+ assert.equal(other.start,11000);
+});
+test('held power-ups and missing game connection have no active countdown',()=>{
+ const p=powerUpInfo({gameState:{gameConnection:true,availablePowerUp:'AERO'}},1000);
+ assert.equal(p.state,'available');assert.equal(p.end,null);assert.equal(p.secs,null);
+ assert.equal(powerUpInfo({gameState:{gameConnection:false,activePowerUp:'AERO',activePowerUpEnd:31000}},1000),null);
 });

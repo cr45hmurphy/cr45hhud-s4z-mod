@@ -202,7 +202,6 @@ body[data-style=progress] #progress.compact{flex-direction:row;align-items:cente
 body[data-style=strip] #display.hud.stacked{gap:2px}
 .m-icon{height:1.05em;width:1.05em;vertical-align:-.18em;margin-right:.3em}
 .hud[data-layout=side] .m-icon{filter:drop-shadow(0 0 1px rgba(0,0,0,.9))}
-.m.pup-active .value{color:#52d49d}
 .hud[data-layout=side] .m.m-text .value{font-size:1.5em}
 .hud[data-layout=side] .m.m-text .m-label{max-width:5.5em}
 /* Power-up cell: the icon fills the cell and never decides its size. In a single row the cell is a square as tall as
@@ -216,9 +215,6 @@ body[data-style=strip] #display.hud.stacked{gap:2px}
 .hud[data-layout=inline] .m.m-iconcell.has-name .m-icon{height:1.5em}
 .m.m-iconcell .m-pupname{font-size:.95em;font-weight:600;overflow:hidden;text-overflow:ellipsis}
 .hud[data-arrange=column] .m.m-iconcell{min-height:3em;justify-content:center}
-.m.m-iconcell.pup-active{box-shadow:inset 0 0 0 2px #52d49d,0 0 0 1px rgba(0,0,0,.5)}
-.hud[data-layout=side] .m.m-iconcell.pup-active{box-shadow:none}
-.hud[data-layout=side] .m.m-iconcell.pup-active .m-icon{filter:drop-shadow(0 0 3px #52d49d) drop-shadow(0 0 1px rgba(0,0,0,.9))}
 /* Surface (0.4.0): what is drawn behind the metrics. It never changes the size or position of a cell.
    Cards: a box per metric. Plate: one slab per group with hairline dividers (no blue edge). Open: nothing at all,
    no surface and no lines; text gets the Text outline setting so it reads over scenery. */
@@ -230,10 +226,8 @@ body[data-style=strip] #display.hud.stacked{gap:2px}
 .hud[data-surface=open] .hud-group{background:none;box-shadow:none}
 .hud[data-surface=open] .m{background:none;box-shadow:none;text-shadow:var(--outline,none)}
 .hud[data-surface=open] .m .m-label,.hud[data-surface=open] .m .unit,.hud[data-surface=open] .m .m-sub{color:#e8ecf1}
-.hud[data-surface=open] .m.m-iconcell.pup-active .m-icon{filter:drop-shadow(0 0 3px #52d49d) drop-shadow(0 0 1px rgba(0,0,0,.9))}
 .hud[data-surface=open] .m .m-icon{filter:drop-shadow(0 0 1px rgba(0,0,0,.9))}
 .hud[data-surface=open] .m .m-stripe{box-shadow:0 0 0 1px rgba(0,0,0,.5)}
-.hud[data-surface=plate] .m.m-iconcell.pup-active,.hud[data-surface=cards] .m.m-iconcell.pup-active{box-shadow:inset 0 0 0 2px #52d49d,0 0 0 1px rgba(0,0,0,.5)}
 /* The HUD has its own corners; the docked progress bar keeps the Corners setting of the bar. */
 body[data-hudcorners=soft]{--hud-r:3px}body[data-hudcorners=rounded]{--hud-r:8px}
 /* Unit grid (0.4.0): every normal cell is one unit wide, on both sides of a split, and the large first metric is
@@ -246,3 +240,23 @@ body[data-hudcorners=soft]{--hud-r:3px}body[data-hudcorners=rounded]{--hud-r:8px
 .hud .m.hero:not(.m-text) .value{font-size:calc(var(--vs) * var(--hero-size,1.6))}
 .hud .m.hero:not(.m-text) .unit{font-size:calc(var(--us) * var(--hero-size,1.6))}
 
+
+/* Keep the zone stripe clear of second-line descenders and outlines, including Side layout. */
+.hud:is([data-layout=stacked],[data-layout=side]):not([data-arrange=column])[data-zone=stripe] .m{padding-bottom:.9em}
+/* Card gaps are independent of text size; a plate keeps its continuous surface. */
+.hud:not([data-surface=plate]) .hud-group{--ggap:var(--card-gap,2px)}
+.hud[data-sized=true][data-arrange=column] .m{box-sizing:border-box;min-width:0;width:var(--cell-width);max-width:100%}
+
+.hud[data-sized=true][data-arrange=column],.hud[data-sized=true][data-arrange=column] .hud-group{max-width:100%}
+
+/* Sauce PowerUpField countdown: white circular sweep drains to grey over the remaining time.
+   A saved start and negative delay keep the sweep continuous when live data redraws the HUD. */
+@property --hud-pup-progress{syntax:"<percentage>";inherits:false;initial-value:0%}
+@keyframes hud-powerup-countdown{from{--hud-pup-progress:100%}to{--hud-pup-progress:0%}}
+.m.m-iconcell .m-pupdial{position:absolute;inset:.45em;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(238,238,238,.267);overflow:hidden}
+.m.m-iconcell .m-pupdial .m-icon{position:static;inset:auto;width:100%;height:100%;margin:0;box-sizing:border-box;padding:.12em;object-fit:contain;opacity:.82}
+.m.m-iconcell .m-pupdial.counting{background-image:conic-gradient(#fff 0%,#fff var(--hud-pup-progress),rgba(204,204,204,.6) var(--hud-pup-progress),rgba(204,204,204,.6) 100%);animation:hud-powerup-countdown var(--pup-duration) linear var(--pup-delay) 1 both}
+.m.m-iconcell .m-pupdial.counting .m-icon{opacity:.85}
+.m.m-iconcell.has-name .m-pupdial{position:static;flex:none;width:2.6em;height:2.6em}
+.hud[data-layout=inline] .m.m-iconcell.has-name .m-pupdial{width:1.5em;height:1.5em}
+.hud .m.m-iconcell.has-name .m-pupdial .m-icon{width:100%;height:100%;aspect-ratio:auto}

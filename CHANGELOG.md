@@ -168,3 +168,11 @@ Ride Progress Bar settings rewritten for plain language and regrouped as Window,
 ## 0.1.21 thin-line position bar
 
 Fixed: with Thin line set to Line only or Labels on their own row, the line collapsed to 0 px tall, so the Bar and Notch position markers (which span the line's height) disappeared while the fixed-height finish mark still showed. Labels beside the line were unaffected.
+
+## HUD sizing and spacing
+
+Added Card spacing (0-40 px) and Card / plate cell width (0-400 px; 0 keeps automatic sizing) under Look alongside the Surface settings. Width is independent of text size, applies to each metric, and preserves the large-metric multiplier and narrow-window wrapping. Plates follow the combined metric widths and keep continuous dividers. Increased space below second lines so the power zone stripe clears W/kg text in Stacked and Side layouts.
+
+## Power-up countdown
+
+Replaced the green active-power-up highlight with Sauce's circular white-to-grey countdown sweep, using the same activePowerUpEnd timestamp as its PowerUpField. The animation keeps its original start across HUD redraws and works with the optional power-up name hidden or shown. Updated the settings description and added deadline/reset tests.

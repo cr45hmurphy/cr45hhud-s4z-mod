@@ -7,7 +7,7 @@ export function defaults(style){return {fields:style==='focus'?['power','heartra
  showIndicators:true,approachCue:true,segmentText:'type',nextColor:'segment',segmentPalette:'game',showLoops:true,
  showZone:true,showTime:false,
  // Metric HUD (strip window): look, arrangement and the optional docked progress bar.
- hudLayout:'stacked',hudSurface:'plate',hudCorners:'square',hudArrange:'row',hudLabels:'text',hudSecond:true,hudSubPower:true,hudSubWkg:true,hudSubHeartrate:false,hudSubCadence:false,hudSubSpeed:false,hudSubDistance:true,hudSubTime:true,hudPupName:false,hudZone:'stripe',hudGroup:'none',hudSplit:3,hudHero:false,hudHeroSize:1.6,hudPerRow:3,hudProgress:'off',hudProgressScale:1};}
+ hudCardGap:2,hudCellWidth:0,hudLayout:'stacked',hudSurface:'plate',hudCorners:'square',hudArrange:'row',hudLabels:'text',hudSecond:true,hudSubPower:true,hudSubWkg:true,hudSubHeartrate:false,hudSubCadence:false,hudSubSpeed:false,hudSubDistance:true,hudSubTime:true,hudPupName:false,hudZone:'stripe',hudGroup:'none',hudSplit:3,hudHero:false,hudHeroSize:1.6,hudPerRow:3,hudProgress:'off',hudProgressScale:1};}
 const ENUMS={cornerStyle:['square','soft','rounded'],density:['standard','compact','line'],lineLayout:['bare','ends','above','raised'],riderMarker:['bar','notch','none'],textOutline:['off','light','normal','heavy'],
  textLeft:['name','next','lap','none'],textMiddle:['name','next','lap','none'],textRight:['name','next','lap','none'],distanceDisplay:['km','percent','both','none'],textPosition:['above','below','split'],
 segmentText:['type','name'],nextColor:['segment','white'],segmentPalette:['game','lifted','safe'],
@@ -47,7 +47,7 @@ export function migrate(raw){const out={};if(!raw)return out;
   Object.assign(out,{hudSecond:true,hudSubPower:wkg,hudSubWkg:wkg,hudSubHeartrate:avg,hudSubCadence:avg,hudSubSpeed:avg,hudSubDistance:togo,hudSubTime:togo});}
  return out;}
 export function normalize(raw,style){const d=defaults(style),c={...d,...raw,...migrate(raw)};c.fields=Array.isArray(c.fields)?[...new Set(c.fields.filter(k=>Object.hasOwn(catalog,k)))]:d.fields;
- for(const [k,min,max] of [['barThickness',2,40],['fontScale',.5,2],['backgroundAlpha',0,100],['columns',1,9],['swapDistance',.2,10],['opacity',0,1],['scale',.7,1.7],['ftp',1,1000],['hudSplit',1,8],['hudPerRow',1,9],['hudProgressScale',.5,2],['hudHeroSize',1,3]])c[k]=Number.isFinite(+c[k])?Math.min(max,Math.max(min,+c[k])):d[k];
+ for(const [k,min,max] of [['barThickness',2,40],['fontScale',.5,2],['backgroundAlpha',0,100],['columns',1,9],['swapDistance',.2,10],['opacity',0,1],['scale',.7,1.7],['ftp',1,1000],['hudSplit',1,8],['hudPerRow',1,9],['hudProgressScale',.5,2],['hudHeroSize',1,3],['hudCardGap',0,40],['hudCellWidth',0,400]])c[k]=Number.isFinite(+c[k])?Math.min(max,Math.max(min,+c[k])):d[k];
  c.columns=Math.round(c.columns);c.hudSplit=Math.round(c.hudSplit);c.hudPerRow=Math.round(c.hudPerRow);
  for(const [k,allowed] of Object.entries(ENUMS))if(!allowed.includes(c[k]))c[k]=d[k];
  c.units=c.units==='imperial'?'imperial':'metric';

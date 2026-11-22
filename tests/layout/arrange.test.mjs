@@ -56,11 +56,17 @@ test('Rows, Column, label modes and Power-up name',{skip:!chromium?'playwright-c
   const page=await browser.newPage({viewport:{width:1300,height:600}});
   await page.goto(`http://127.0.0.1:${server.address().port}/tests/layout/harness.html`);
   await page.waitForFunction('typeof window.renderHud==="function"');
-  // Regression checks found by looking at screenshots.
-  for(const surface of ['plate','cards'])await t.test(`active Power-up keeps its green ring on ${surface}`,async()=>{
-   await page.evaluate(([i,o,w])=>window.renderHud(i,o,w),[[{...PUP,state:'active'},...BASE],{hudSurface:surface,hudLayout:'stacked'},1000]);
-   const shadow=await page.evaluate(()=>getComputedStyle(document.querySelector('.m-iconcell')).boxShadow);
-   assert.match(shadow,/82, 212, 157/,'the green ring is missing: '+shadow);});
+  // Active power-ups use a timed circular sweep instead of the old green highlight.
+  for(const surface of ['plate','cards','open'])await t.test(`active Power-up countdown on ${surface}`,async()=>{
+   await page.evaluate(([i,o,w])=>window.renderHud(i,o,w),[[{...PUP,state:'active',end:Date.now()+30000},...BASE],{hudSurface:surface,hudLayout:'stacked'},1000]);
+   const timer=await page.evaluate(()=>{
+    const dial=document.querySelector('.m-pupdial.counting'),css=getComputedStyle(dial);
+    return {animation:css.animationName,duration:parseFloat(css.animationDuration),background:css.backgroundImage};
+   });
+   assert.equal(timer.animation,'hud-powerup-countdown');
+   assert.ok(timer.duration>25&&timer.duration<=30,'countdown should use the remaining deadline');
+   assert.match(timer.background,/conic-gradient/);
+  });
   for(const layout of ['inline','side'])await t.test(`${layout}: six metrics fit one row in the default 920 px window`,async()=>{
    const r=await page.evaluate(([i,o,w])=>window.renderHud(i,o,w),[BASE,{hudLayout:layout,hudSurface:'cards'},920]);
    assert.equal(r.stacked,false,'the row wrapped');});
