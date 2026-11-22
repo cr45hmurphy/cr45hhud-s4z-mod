@@ -15,6 +15,15 @@ Two overlay windows for Sauce for Zwift, made by **cr45hmurphy**. They share one
 
 Everything it needs comes with Sauce. There is nothing else to download, no account, and no internet access needed.
 
+## What's new in 1.0.0
+
+- **Draft metric:** show the watts saved through drafting. Select Draft in the Metrics list; an optional Draft (average) second line shows your ride average.
+- **Card spacing and width:** adjust the gap between cards and the width of each metric under Look, alongside Surface, opacity and corners. These controls work independently of text size, so smaller text no longer means you have to keep extra-wide cards.
+- **Power-up countdown:** a circular white-to-grey sweep replaces the green active highlight and shows how much time remains. It follows Sauce's power-up timer and keeps its progress through HUD refreshes.
+- **Clearer second lines:** added room above the power-zone stripe and increased second-line height and padding so descenders in avg and W/kg stay visible.
+
+The first stable release includes both the Metric HUD and Ride Progress Bar. Experimental Ride On sender notifications are not included.
+
 ## Install
 
 1. Unzip it so you end up with `Documents/SauceMods/cr45h-hud/manifest.json`. If you have no SauceMods folder, create one. ("Documents" may be called "My Documents".)
@@ -61,8 +70,8 @@ Two settings that combine freely: **Layout** is how a metric is arranged inside 
 | **Layout** | **Stacked**: label above the number (the default). **Inline**: label, number and unit on one line; slim, no second line. **Side**: a big number with the label and unit beside it. |
 | **Surface** | **Plate**: one slab with thin dividers (the default). **Cards**: a box per metric. **Open**: nothing drawn, no surface and no lines; text gets the outline setting instead. |
 | **Labels** | Text, icons, or none. |
-| **Card spacing** | Gap between cards, in pixels; independent of text size. |
-| **Card / plate cell width** | Preferred width per metric, in pixels. 0 keeps automatic sizing. |
+| **Card spacing** | 0-40 px between Cards or Open metrics; independent of text size. Plate keeps its continuous surface. |
+| **Card / plate cell width** | 0-400 px per metric; 0 keeps automatic sizing. A plate follows the combined width of its metrics. Narrow rows still wrap; very small widths can clip text. |
 | **Surface opacity** | How see-through the plate or cards are. |
 | **Corners** | Square, slightly rounded, or rounded. For the plate or cards only. The docked progress bar has its own Corners setting. |
 | **Text outline** | None, light, medium or heavy. A dark edge that keeps text readable over bright scenery. |
@@ -117,7 +126,7 @@ Rounded corners:<br><img src="images/look-corners-rounded.png" alt="Rounded corn
 
 ### Second lines
 
-A small second line under a metric. One switch turns them all off; each metric also has its own switch.
+A small second line under a metric. One switch turns them all off; each metric also has its own switch. Second lines appear in Stacked and Side layouts; Inline keeps a single line.
 
 On:<br><img src="images/second-lines-on.png" alt="Second lines on" width="1000">
 
@@ -127,6 +136,7 @@ Off (master switch):<br><img src="images/second-lines-off.png" alt="Second lines
 |---|---|---|
 | **Power** | Watts per kilogram. | On |
 | **W/kg** | The watts. | On |
+| **Draft** | Average watts saved through drafting, including a valid zero-watt average. | Off |
 | **Heart rate, Cadence, Speed** | This ride's average. | Off |
 | **Distance** | What is left of your route or event ("to go"). | On |
 | **Ride time** | The time of day (clock time). | On |
