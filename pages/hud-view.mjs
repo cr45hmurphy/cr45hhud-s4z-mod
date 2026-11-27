@@ -82,7 +82,9 @@ export function drawHud(root,items,cfg){
   const m=el('div',`m m-${it.key}${it.text?' m-text':''}${it.state?` pup-${it.state}`:''}`);
   if(it.zone&&cfg.hudZone!=='off')m.style.setProperty('--zc',it.zone);
   if(cfg.hudLabels!=='none'){const l=el('span','m-label');if(cfg.hudLabels==='icon'){const i=el('ms',null,ICONS[it.key]||'circle');i.title=it.label;l.append(i);}else l.textContent=cfg.hudArrange==='column'||cfg.hudLayout!=='stacked'?SHORT[it.key]||it.label:it.label;m.append(l);}
-  const value=el('span','value');if(it.icon){const i=el('img','m-icon');i.src=it.icon;i.alt='';value.append(i);}value.append(document.createTextNode(it.value));m.append(value,el('span','unit',it.unit||''));
+  const averaging=(it.key==='power'||it.key==='wkg')&&Number(cfg.powerAveraging);
+  const unit=averaging?`${it.unit} · ${averaging}s`:it.unit||'';
+  const value=el('span','value');if(it.icon){const i=el('img','m-icon');i.src=it.icon;i.alt='';value.append(i);}value.append(document.createTextNode(it.value));m.append(value,el('span','unit',unit));
   if(anySub&&cfg.hudArrange!=='column')m.append(el('span','m-sub',it.sub||' '));
   if(it.zone&&cfg.hudZone==='stripe'){m.append(el('i','m-stripe'));m.classList.add('zoned');if(anySub&&it.sub)m.classList.add('has-sub');}
   return m;};
